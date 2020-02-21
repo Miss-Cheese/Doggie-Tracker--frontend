@@ -50,10 +50,6 @@ import { StyleSheet, View, Text, TextInput, Button} from 'react-native';
     
     render () {
       
-      let recentWeights = this.state.recentWeight
-      console.log(recentWeights)
-      
-  
       return(
         <>
           <View style={styles.container}>
