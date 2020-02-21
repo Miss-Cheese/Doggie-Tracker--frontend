@@ -1,14 +1,5 @@
 import React from 'react';
-import {
-    SafeAreaView,
-    StyleSheet,
-    ScrollView,
-    View,
-    Text,
-    TextInput,
-    StatusBar,
-    Button,
-  } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button} from 'react-native';
 
   class Weight extends React.Component {
 
@@ -16,9 +7,9 @@ import {
       weightInfo: {
         dog_id: 1,
         amount: 0,
-        date: '2020-02-20'
+        date: '2020-02-21'
         },
-      recentWeight: []
+      recentWeight: ['', '', '']
     }
 
     updateStateWeight = (input) => {
@@ -42,15 +33,26 @@ import {
       })
     }
 
+    
     getRecentWeight = () => {
       fetch('http://localhost:3000/weights')
       .then(response => response.json())
       .then(recentWeightData => this.setState({
-        recentWeight: recentWeightData
+        recentWeight: recentWeightData.reverse()
       }))
     }
+    
+    componentDidMount () {
+      this.getRecentWeight()
+    }
 
+
+    
     render () {
+      
+      let recentWeights = this.state.recentWeight
+      console.log(recentWeights)
+      
   
       return(
         <>
@@ -68,7 +70,18 @@ import {
           <View style={styles.container}>
             <Text>Weight History</Text>
             <Text>Date</Text> 
-            <Text>Weight</Text>
+            <Text> 
+              Date: {this.state.recentWeight[0].date}
+              Weight: {this.state.recentWeight[0].amount}
+            </Text> 
+            <Text> 
+              Date: {this.state.recentWeight[1].date}
+              Weight: {this.state.recentWeight[1].amount} 
+            </Text> 
+            <Text>  
+              Date: {this.state.recentWeight[2].date}
+              Weight: {this.state.recentWeight[2].amount}
+            </Text> 
           </View>
         </>  
       )

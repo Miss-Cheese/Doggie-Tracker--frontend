@@ -134,7 +134,6 @@
 				9BD33981A93EB36406A71A3C /* Pods-DoggieTrackerTests.debug.xcconfig */,
 				04742BED7143783200FDD2D6 /* Pods-DoggieTrackerTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -308,6 +307,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);

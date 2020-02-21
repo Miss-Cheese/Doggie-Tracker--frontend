@@ -1,22 +1,23 @@
 import React from 'react';
-import {
-    SafeAreaView,
-    StyleSheet,
-    ScrollView,
-    View,
-    Text,
-    StatusBar,
-    Button,
-  } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button} from 'react-native';
 
-  function Walk ({navigation}) {
+  class Walk extends React.Component {
 
-    return(
-        <View>
-          <Text>Binky's Walks</Text>
-        </View>
-    )
-    
+    state = {
+
+    }
+
+    render () {
+
+      return(
+          <View>
+            <Text>Binky's Walks</Text>
+            <Button title="Start Walk" onPress={() => {}}></Button>
+            <Button title="Finish Walk" onPress={() => {}}></Button>
+          </View>
+      )
+    }
+
   }
 
   export default Walk
