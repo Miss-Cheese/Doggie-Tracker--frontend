@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, TextInput, Button} from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, TouchableWithoutFeedbackBase} from 'react-native';
 
   class Weight extends React.Component {
 
@@ -7,16 +7,20 @@ import { StyleSheet, View, Text, TextInput, Button} from 'react-native';
       weightInfo: {
         dog_id: 1,
         amount: 0,
-        date: '2020-02-21'
+        date: ''
         },
-      recentWeight: ['', '', '']
+      recentWeight: []
     }
 
+
     updateStateWeight = (input) => {
+
+      let currentDate = new Date()
       this.setState({
         weightInfo: {
           ...this.state.weightInfo,
-          amount: input
+          amount: input, 
+          date: currentDate.toString()
         }
       })
     }
@@ -46,9 +50,16 @@ import { StyleSheet, View, Text, TextInput, Button} from 'react-native';
       this.getRecentWeight()
     }
 
+    turnStringIntoDate = (stringDate) => {
+      let dateObj = new Date(Date.parse(stringDate))
+      return dateObj.toLocaleDateString()
+    }
 
     
     render () {
+      
+      // console.log(stringValue) - this is to save in the database
+      // console.log(new Date(Date.parse(stringValue))) - this is to get the date object back from the string
       
       return(
         <>
@@ -63,27 +74,22 @@ import { StyleSheet, View, Text, TextInput, Button} from 'react-native';
               onChangeText={(input) => this.updateStateWeight(input)}/>
             <Button title="Update Weight" onPress={() => this.updateDbWeight()}></Button>
           </View>
+
+          {this.state.recentWeight.length !== 0 ? 
           <View style={styles.container}>
             <Text>Weight History</Text>
-            <Text>Date</Text> 
-            <Text> 
-              Date: {this.state.recentWeight[0].date}
-              Weight: {this.state.recentWeight[0].amount}
-            </Text> 
-            <Text> 
-              Date: {this.state.recentWeight[1].date}
-              Weight: {this.state.recentWeight[1].amount} 
-            </Text> 
-            <Text>  
-              Date: {this.state.recentWeight[2].date}
-              Weight: {this.state.recentWeight[2].amount}
-            </Text> 
-          </View>
+            {this.state.recentWeight.slice(0,5).map(weight => 
+                <Text key={weight.id}> 
+                  Date: {this.turnStringIntoDate(weight.date)}{"\n"}
+                  Weight: {weight.amount}
+                </Text> 
+                )
+            }
+          </View> : <View style={styles.container}><Text>No Recent Weight History</Text></View>
+          }
         </>  
       )
     }
-
-    
   }
 
   const styles = StyleSheet.create({

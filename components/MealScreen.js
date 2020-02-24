@@ -8,17 +8,19 @@ import { StyleSheet, View, Text, TextInput, Button, Picker} from 'react-native';
         dog_id: 1,
         food: '',
         meal_type: 'breakfast',
-        date: '2020-02-21',
-        time: '13:37'
+        datetime: '2020-02-21'
       },
-      recentMeals: ['', '', '']
+      recentMeals: []
     }
 
     updateFoodInState = (userInput) => {
+
+      let currentDate = new Date()
       this.setState({
         mealInfo: {
           ...this.state.mealInfo,
-          food: userInput
+          food: userInput,
+          datetime: currentDate.toString()
         }
       })
     }
@@ -52,6 +54,15 @@ import { StyleSheet, View, Text, TextInput, Button, Picker} from 'react-native';
       }))
     }
 
+    turnStringIntoDate = (stringDate) => {
+      let dateObj = new Date(Date.parse(stringDate))
+      return dateObj.toLocaleDateString()
+    }
+
+    turnStringIntoTime = (stringDate) => {
+      let dateTimeObj = new Date(Date.parse(stringDate))
+      return dateTimeObj.toLocaleTimeString()
+    }
 
     render () {
 
@@ -73,38 +84,37 @@ import { StyleSheet, View, Text, TextInput, Button, Picker} from 'react-native';
             <Picker.Item label="Dinner" value="Dinner" />
             <Picker.Item label="Snack" value="Snack" />
           </Picker>
-
+        </View>
+        <View>
           <Button title="Add Meal" onPress={() => this.updateMealInDb()}></Button>
         </View>
+        {this.state.recentMeals.length !== 0 ? 
         <View style={styles.container}>
             <Text>Meal History</Text>
-            <Text> 
-              Date: {this.state.recentMeals[0].date}
-              Meal Type: {this.state.recentMeals[0].meal_type}
-              Food: {this.state.recentMeals[0].food}
-            </Text> 
-            <Text> 
-              Date: {this.state.recentMeals[1].date}
-              Meal Type: {this.state.recentMeals[1].meal_type} 
-              Food: {this.state.recentMeals[1].food} 
-            </Text> 
-            <Text>  
-              Date: {this.state.recentMeals[2].date}
-              Meal Type: {this.state.recentMeals[2].meal_type}
-              Food: {this.state.recentMeals[2].food}
-            </Text> 
-          </View>
+
+            {this.state.recentMeals.slice(0,3).map(meal => 
+                <Text key={meal.id}> 
+                  Date: {this.turnStringIntoDate(meal.datetime)}{"\n"}
+                  Time: {this.turnStringIntoTime(meal.datetime)}{"\n"}
+                  Meal Type: {meal.meal_type}{"\n"}
+                  Food: {meal.food}
+                </Text> 
+              )
+            }
+          </View> : <View style={styles.container}><Text> No Meal History</Text></View>
+        }
       </>  
       )
     }
-
   }
 
   const styles = StyleSheet.create({
     container: {
       flex: 1,
+      justifyContent: "flex-start",
       alignItems: 'center',
-      marginTop: 30
+      marginTop: 30,
+      padding: 10
     }
   })
 
