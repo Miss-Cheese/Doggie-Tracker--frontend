@@ -77,6 +77,7 @@ import { StyleSheet, View, Text, TextInput, Button} from 'react-native';
         },
        body: JSON.stringify(this.state.walkInfo) 
       })
+      this.props.navigation.navigate('Dashboard')
     }
 
     getRecentWalks = () => {

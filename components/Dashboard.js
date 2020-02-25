@@ -20,6 +20,8 @@ function Dashboard ({navigation}) {
                     <Button title="Add Weight" onPress={() => navigation.navigate('Weight')}/>
                     <Button title="Add Meal" onPress={() => navigation.navigate('Meals')} />
                     <Button title="Walk!" onPress={() => navigation.navigate('Walk')} />
+                    <Button title="Log In" onPress={() => navigation.navigate('Login')} />
+                    <Button title="Sign Up" onPress={() => navigation.navigate('Signup')} />
                 </View>
             </ScrollView>
         </SafeAreaView>
