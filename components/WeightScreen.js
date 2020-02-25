@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, TextInput, Button, TouchableWithoutFeedbackBase} from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button} from 'react-native';
 
   class Weight extends React.Component {
 
@@ -81,7 +81,7 @@ import { StyleSheet, View, Text, TextInput, Button, TouchableWithoutFeedbackBase
             {this.state.recentWeight.slice(0,5).map(weight => 
                 <Text key={weight.id}> 
                   Date: {this.turnStringIntoDate(weight.date)}{"\n"}
-                  Weight: {weight.amount}
+                  Weight: {weight.amount} lbs
                 </Text> 
                 )
             }
