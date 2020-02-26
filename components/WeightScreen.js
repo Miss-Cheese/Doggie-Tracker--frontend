@@ -1,12 +1,12 @@
 import React from 'react';
-import { StyleSheet, View, Text, TextInput, Button} from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, Alert } from 'react-native';
 
   class Weight extends React.Component {
 
     state = {
       weightInfo: {
         dog_id: 1,
-        amount: 0,
+        amount: '',
         date: ''
         },
       recentWeight: []
@@ -27,14 +27,24 @@ import { StyleSheet, View, Text, TextInput, Button} from 'react-native';
 
 
     updateDbWeight = () => {
-      fetch('http://localhost:3000/weights', {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-       body: JSON.stringify(this.state.weightInfo) 
-      })
+      if (this.state.weightInfo.amount === '') {
+        Alert.alert(
+          'Alert',
+          'Please enter weight',
+          [ {text: 'OK', onPress: () => console.log('OK Pressed')}],
+          {cancelable: true},
+        );
+      } else {
+        fetch('http://localhost:3000/weights', {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+         body: JSON.stringify(this.state.weightInfo) 
+        })
+      }
+      this.props.navigation.navigate('Dashboard')
     }
 
     
@@ -60,6 +70,8 @@ import { StyleSheet, View, Text, TextInput, Button} from 'react-native';
       
       // console.log(stringValue) - this is to save in the database
       // console.log(new Date(Date.parse(stringValue))) - this is to get the date object back from the string
+
+  
       
       return(
         <>

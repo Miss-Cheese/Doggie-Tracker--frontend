@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, TextInput, Button, Picker} from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, Picker, Alert } from 'react-native';
 
   class Meal extends React.Component {
 
@@ -7,8 +7,8 @@ import { StyleSheet, View, Text, TextInput, Button, Picker} from 'react-native';
       mealInfo: {
         dog_id: 1,
         food: '',
-        meal_type: 'breakfast',
-        datetime: '2020-02-21'
+        meal_type: '',
+        datetime: ''
       },
       recentMeals: []
     }
@@ -36,22 +36,44 @@ import { StyleSheet, View, Text, TextInput, Button, Picker} from 'react-native';
 
 
     updateMealInDb = () => {
-      fetch('http://localhost:3000/meals', {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-       body: JSON.stringify(this.state.mealInfo) 
+      if (this.state.mealInfo.food === '') {
+        Alert.alert(
+          'Alert',
+          'Please enter meal',
+          [ {text: 'OK', onPress: () => console.log('OK Pressed')}],
+          {cancelable: true},
+        );
+      } else {
+        fetch('http://localhost:3000/meals', {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+         body: JSON.stringify(this.state.mealInfo) 
+        })
+      }
+      this.getRecentMeals()
+      this.setState({
+        mealInfo: {
+          ...this.state.mealInfo,
+          food: '',
+          meal_type: ''
+         
+        }
       })
     }
 
-    componentDidMount () {
+    getRecentMeals = () => {
       fetch('http://localhost:3000/meals')
       .then(response => response.json())
       .then(recentMealData => this.setState({
         recentMeals: recentMealData.reverse()
       }))
+    }
+
+    componentDidMount () {
+      this.getRecentMeals()
     }
 
     turnStringIntoDate = (stringDate) => {
@@ -77,8 +99,9 @@ import { StyleSheet, View, Text, TextInput, Button, Picker} from 'react-native';
 
           <Picker
             selectedValue={this.state.mealInfo.meal_type}
-            style={{height: 50, width: 100}}
+            style={{height: 50, width: 200}}
             onValueChange={(userInput) => this.updateMealTypeInState(userInput)}>
+            <Picker.Item label="Select Meal" value="" />
             <Picker.Item label="Breakfast" value="Breakfast" />
             <Picker.Item label="Lunch" value="Lunch" />
             <Picker.Item label="Dinner" value="Dinner" />
