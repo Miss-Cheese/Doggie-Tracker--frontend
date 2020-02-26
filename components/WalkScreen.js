@@ -111,7 +111,6 @@ import { StyleSheet, View, Text, TextInput, Button} from 'react-native';
 
     render () {
 
-      console.log(this.getWalkDuration())
       // let testDate = new Date()
       // let stringValue = testDate.toString()
       // console.log(new Date(Date.parse(stringValue)))
