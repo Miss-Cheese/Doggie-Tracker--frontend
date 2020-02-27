@@ -94,7 +94,7 @@ import { StyleSheet, View, Text, TextInput, Button, Picker, Alert } from 'react-
           <Text>Binky's Meals</Text>
           <TextInput
             style={{ height: 40, width: 100, borderColor: 'gray', borderWidth: 1 }}
-            value={this.state.food}
+            value={this.state.mealInfo.food}
             onChangeText={(userInput) => this.updateFoodInState(userInput)}/>
 
           <Picker

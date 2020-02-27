@@ -9,7 +9,7 @@ import MealScreen from './components/MealScreen'
 import WalkScreen from './components/WalkScreen'
 import Login from './components/Login';
 import Signup from './components/Signup';
-import DogProfile from './components/DogProfile';
+import AddDog from './components/AddDog';
 import UserProfile from './components/UserProfile';
 import { log } from 'react-native-reanimated';
 
@@ -20,7 +20,9 @@ class App extends React.Component {
 
   state = {
     loggedIn: false,
-    currentUser: {}
+    currentUser: {},
+    currentDog: {},
+    userDogs: []
   }
 
   loginUser = (loggedInUser) => {
@@ -30,9 +32,30 @@ class App extends React.Component {
     })
   }
 
+  getUserDogs = () => {
+    fetch("http://localhost:3000/dogs")
+    .then(response => response.json())
+    .then(data => {
+      dogs = data.filter(dog => dog.user.id === this.state.currentUser.id)
+      console.log(dogs)
+      this.setState({
+          userDogs: dogs
+      })
+    })
+  }
+
+  updateUserInfoAfterEdit = (userInfo) => {
+    this.setState({
+      currentUser: {
+        name: userInfo.name,
+        email: userInfo.email,
+        password: userInfo.password
+      }
+    })
+  }
+
   render () {
 
-    // console.log(this.state)
 
     return (
       <NavigationContainer>
@@ -42,7 +65,6 @@ class App extends React.Component {
             </Stack.Screen>
           <Stack.Screen name="Signup" component={Signup}/>
 
-          {/* <Stack.Screen name="Dashboard" component={Dashboard}/> */}
           <Stack.Screen name="Dashboard" options={{headerTitle: props => <Text {...props}>Dashboard</Text>}}>
             {props => <Dashboard {...props} loggedIn={this.state.loggedIn}/>}
             </Stack.Screen>
@@ -52,10 +74,13 @@ class App extends React.Component {
           <Stack.Screen name="Walk" component={WalkScreen}/>
 
           <Stack.Screen name="UserProfile" options={{headerTitle: props => <Text {...props}>Profile</Text>}}>
-            {props => <UserProfile {...props} currentUser={this.state.currentUser}/>}
+            {props => <UserProfile {...props} currentUser={this.state.currentUser} updateUserInfoAfterEdit={this.updateUserInfoAfterEdit}/>}
             </Stack.Screen>
 
-          <Stack.Screen name="DogProfile" component={DogProfile}/>
+          <Stack.Screen name="AddDog" options={{headerTitle: props => <Text {...props}>Add Dog</Text>}}>
+            {props => <AddDog {...props} currentUser={this.state.currentUser}/>}
+            </Stack.Screen>
+
         </Stack.Navigator>
       </NavigationContainer>
     );
