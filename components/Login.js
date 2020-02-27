@@ -8,7 +8,6 @@ class Login extends React.Component {
         password: ''
     }
 
-
     updateEmailInState = (input) => {
         this.setState({
             email: input
@@ -23,12 +22,10 @@ class Login extends React.Component {
 
     handleLogIn = () => {
         let loggedInUser
-
         fetch("http://localhost:3000/users")
           .then(response => response.json())
           .then(data => {
             loggedInUser = data.find(user => user.email === this.state.email)
-            console.log(loggedInUser)
             this.props.loginUser(loggedInUser)
         })
         this.props.navigation.navigate('Dashboard')
@@ -37,8 +34,6 @@ class Login extends React.Component {
 
 
     render () {
-
-        // console.log(this.state)
 
         return(
             <>

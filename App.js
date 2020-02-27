@@ -11,6 +11,7 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import AddDog from './components/AddDog';
 import UserProfile from './components/UserProfile';
+import SwitchDogs from './components/SwitchDogs'
 import { log } from 'react-native-reanimated';
 
 
@@ -30,6 +31,7 @@ class App extends React.Component {
       loggedIn: true,
       currentUser: loggedInUser
     })
+    this.getUserDogs()
   }
 
   getUserDogs = () => {
@@ -37,11 +39,20 @@ class App extends React.Component {
     .then(response => response.json())
     .then(data => {
       dogs = data.filter(dog => dog.user.id === this.state.currentUser.id)
-      console.log(dogs)
       this.setState({
           userDogs: dogs
-      })
+      }, () => this.setCurrentDog())
     })
+    
+  }
+
+  setCurrentDog = () => {
+    if (this.state.userDogs.length !== 0)
+     {
+      this.setState({
+        currentDog: this.state.userDogs[0]
+      })
+     }
   }
 
   updateUserInfoAfterEdit = (userInfo) => {
@@ -56,6 +67,7 @@ class App extends React.Component {
 
   render () {
 
+    console.log(this.state)
 
     return (
       <NavigationContainer>
@@ -74,8 +86,14 @@ class App extends React.Component {
           <Stack.Screen name="Walk" component={WalkScreen}/>
 
           <Stack.Screen name="UserProfile" options={{headerTitle: props => <Text {...props}>Profile</Text>}}>
-            {props => <UserProfile {...props} currentUser={this.state.currentUser} updateUserInfoAfterEdit={this.updateUserInfoAfterEdit}/>}
+            {props => <UserProfile {...props} currentUser={this.state.currentUser} 
+            userDogs={this.state.userDogs}
+            updateUserInfoAfterEdit={this.updateUserInfoAfterEdit}/>}
             </Stack.Screen>
+
+          <Stack.Screen name="SwitchDogs" options={{headerTitle: props => <Text {...props}>Select Dog</Text>}}>
+          {props => <SwitchDogs {...props} currentUser={this.state.currentUser} userDogs={this.state.userDogs}/>}
+          </Stack.Screen>
 
           <Stack.Screen name="AddDog" options={{headerTitle: props => <Text {...props}>Add Dog</Text>}}>
             {props => <AddDog {...props} currentUser={this.state.currentUser}/>}

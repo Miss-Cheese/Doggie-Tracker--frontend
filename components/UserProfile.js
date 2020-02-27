@@ -4,7 +4,6 @@ import { StyleSheet, View, Text, TextInput, Button, Alert } from 'react-native';
 class UserProfile extends React.Component { 
 
     state = {
-    //    userDogs: [],
        editingProfile: false,
        userInfo: {
            name: this.props.currentUser.name,
@@ -12,17 +11,6 @@ class UserProfile extends React.Component {
            password: this.props.currentUser.password
        }
     }
-
-    // componentDidMount() {
-    //     fetch("http://localhost:3000/dogs")
-    //     .then(response => response.json())
-    //     .then(data => {
-    //       dogs = data.filter(dog => dog.user.id === this.props.currentUser.id)
-    //       this.setState({
-    //           userDogs: dogs
-    //       })
-    //   })
-    // }
 
     toggleEditForm = () => {
         this.setState({
@@ -125,7 +113,7 @@ class UserProfile extends React.Component {
             <View style={styles.container}>
                 <Text>Your Dogs: </Text>
                     { 
-                        this.state.userDogs.map(dog => 
+                        this.props.userDogs.map(dog => 
                             <Text key={dog.id}>{dog.name}</Text>
                             )
                     }
