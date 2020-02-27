@@ -23,6 +23,7 @@ function Dashboard (props) {
                     <Button title="Add Meal" onPress={() => props.navigation.navigate('Meals')} />
                     <Button title="Walk!" onPress={() => props.navigation.navigate('Walk')} />
                     <Button title="Profile" onPress={() => props.navigation.navigate('UserProfile')} />
+                    <Button title="Switch Dogs" onPress={() => props.navigation.navigate('SwitchDogs')} />
                     </>}
                 </View>
             </ScrollView>
