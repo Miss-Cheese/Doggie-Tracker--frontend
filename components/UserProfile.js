@@ -4,7 +4,7 @@ import { StyleSheet, View, Text, TextInput, Button, Alert } from 'react-native';
 class UserProfile extends React.Component { 
 
     state = {
-       userDogs: [],
+    //    userDogs: [],
        editingProfile: false,
        userInfo: {
            name: this.props.currentUser.name,
@@ -13,16 +13,16 @@ class UserProfile extends React.Component {
        }
     }
 
-    componentDidMount() {
-        fetch("http://localhost:3000/dogs")
-        .then(response => response.json())
-        .then(data => {
-          dogs = data.filter(dog => dog.user.id === this.props.currentUser.id)
-          this.setState({
-              userDogs: dogs
-          })
-      })
-    }
+    // componentDidMount() {
+    //     fetch("http://localhost:3000/dogs")
+    //     .then(response => response.json())
+    //     .then(data => {
+    //       dogs = data.filter(dog => dog.user.id === this.props.currentUser.id)
+    //       this.setState({
+    //           userDogs: dogs
+    //       })
+    //   })
+    // }
 
     toggleEditForm = () => {
         this.setState({
@@ -74,9 +74,11 @@ class UserProfile extends React.Component {
               },
              body: JSON.stringify(this.state.userInfo) 
             })
-            .then(response => response.json())
-            .then(userData => console.log(userData))
           }
+        this.props.updateUserInfoAfterEdit(this.state.userInfo)
+        this.setState({
+            editingProfile: false
+        })
         }
 
     deleteUser = () => {
@@ -104,15 +106,15 @@ class UserProfile extends React.Component {
                 { this.state.editingProfile && 
                     <>
                     <TextInput style={{ height: 40, width: 200, borderColor: 'gray', borderWidth: 1 }}
-                    value={this.state.name} placeholder="Enter new name"
+                    value={this.state.userInfo.name} placeholder="Enter new name"
                     onChangeText={(input) => this.updateNameInState(input)}/>
 
                     <TextInput style={{ height: 40, width: 200, borderColor: 'gray', borderWidth: 1 }}
-                    value={this.state.email} placeholder="Enter new email"
+                    value={this.state.userInfo.email} placeholder="Enter new email"
                     onChangeText={(input) => this.updateEmailInState(input)}/>
 
                     <TextInput style={{ height: 40, width: 200, borderColor: 'gray', borderWidth: 1 }}
-                    value={this.state.password} placeholder="Enter new password"
+                    value={this.state.userInfo.password} placeholder="Enter new password"
                     onChangeText={(input) => this.updatePasswordInState(input)}/>
 
                     <Button title="Update Profile" onPress={this.updateUserInDb}></Button>
@@ -128,7 +130,7 @@ class UserProfile extends React.Component {
                             )
                     }
                 
-                <Button title="Add new dog" onPress={() => this.props.navigation.navigate('DogProfile')} />
+                <Button title="Add new dog" onPress={() => this.props.navigation.navigate('AddDog')} />
             </View>
             </>
 

@@ -1,10 +1,10 @@
 import React from 'react';
 import { StyleSheet, View, Text, TextInput, Button, Picker} from 'react-native';
 
-class DogProfile extends React.Component {
+class AddDog extends React.Component {
 
     state = {
-        user_id: 2,
+        user_id: this.props.currentUser.id,
         name: ''
     }
 
@@ -53,5 +53,5 @@ const styles = StyleSheet.create({
     }
   })
 
-export default DogProfile
+export default AddDog
 
