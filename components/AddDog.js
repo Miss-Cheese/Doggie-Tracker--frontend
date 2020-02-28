@@ -31,6 +31,7 @@ class AddDog extends React.Component {
 
         return (
             <>
+            
             <View style={styles.container}>
                 <Text>Add New Dog</Text>
                 <View>
