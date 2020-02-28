@@ -1,12 +1,14 @@
 import React from 'react';
 import { SafeAreaView, StyleSheet, ScrollView, View, Text, Button } from 'react-native';
 
-
 function Dashboard (props) {
 
   // console.log(props)
 
     return (
+      <>
+  
+     
         <SafeAreaView>
             <ScrollView contentInsetAdjustmentBehavior="automatic">
                 <View style={styles.container}>
@@ -22,12 +24,16 @@ function Dashboard (props) {
                     <Button title="Add Weight" onPress={() => props.navigation.navigate('Weight')}/>
                     <Button title="Add Meal" onPress={() => props.navigation.navigate('Meals')} />
                     <Button title="Walk!" onPress={() => props.navigation.navigate('Walk')} />
+
+                    <Button title="Emergency" onPress={() => props.navigation.navigate('Emergency')} />
+
                     <Button title="Profile" onPress={() => props.navigation.navigate('UserProfile')} />
                     <Button title="Switch Dogs" onPress={() => props.navigation.navigate('SwitchDogs')} />
                     </>}
                 </View>
             </ScrollView>
         </SafeAreaView>
+      </>
     )
 }
 

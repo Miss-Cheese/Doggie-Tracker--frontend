@@ -5,7 +5,7 @@ import { StyleSheet, View, Text, TextInput, Button, Alert } from 'react-native';
 
     state = {
       weightInfo: {
-        dog_id: 1,
+        dog_id: this.props.currentDog.id,
         amount: '',
         date: ''
         },
@@ -35,7 +35,7 @@ import { StyleSheet, View, Text, TextInput, Button, Alert } from 'react-native';
           {cancelable: true},
         );
       } else {
-        fetch('http://localhost:3000/weights', {
+        fetch('http://localhost:3000/weights', { 
           method: "POST",
           headers: {
             'Content-Type': 'application/json',
@@ -71,6 +71,7 @@ import { StyleSheet, View, Text, TextInput, Button, Alert } from 'react-native';
       // console.log(stringValue) - this is to save in the database
       // console.log(new Date(Date.parse(stringValue))) - this is to get the date object back from the string
 
+      // console.log(this.props.currentDog.id)
   
       
       return(

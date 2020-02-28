@@ -1,4 +1,6 @@
 import React from 'react';
+import MapView, { PROVIDER_GOOGLE, Polyline } from 'react-native-maps'
+
 import { StyleSheet, View, Text, TextInput, Button} from 'react-native';
 
   class Walk extends React.Component {
@@ -116,8 +118,8 @@ import { StyleSheet, View, Text, TextInput, Button} from 'react-native';
       // console.log(new Date(Date.parse(stringValue)))
       return(
         <>
-          <View style={styles.container}>
-            <Text>Binky's Walks</Text>
+          <View style={styles.top}>
+            {/* <Text>Binky's Walks</Text> */}
             {this.state.walkOn === true ? <Button title="Finish Walk" onPress={this.toggleWalkStatus}></Button> :
             <Button title="Start Walk" onPress={this.toggleWalkStatus}></Button> }
             {this.state.walkOn && <View>
@@ -126,8 +128,22 @@ import { StyleSheet, View, Text, TextInput, Button} from 'react-native';
               </View>}
           </View>
 
-          {this.state.recentWalks.length !== 0 ? 
           <View style={styles.container}>
+            <MapView
+              provider={PROVIDER_GOOGLE} 
+              style={styles.map}
+              region={{
+                latitude: 37.78825,
+                longitude: -122.4324,
+                latitudeDelta: 0.015,
+                longitudeDelta: 0.0121,
+              }}
+            >
+            </MapView>
+          </View>
+
+          {this.state.recentWalks.length !== 0 ? 
+          <View style={styles.walk}>
             <Text>Last Walk</Text>
             {this.state.recentWalks.slice(0,1).map(walk => 
                 <Text key={walk.id}> 
@@ -149,11 +165,25 @@ import { StyleSheet, View, Text, TextInput, Button} from 'react-native';
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      justifyContent: "flex-start",
       alignItems: 'center',
+      justifyContent: 'center',
       marginTop: 30,
-      padding: 10
+      padding: 5
+    },
+    top: {
+      paddingTop: 30,
+      justifyContent: 'flex-end'
+    },
+    map: {
+      // ...StyleSheet.absoluteFillObject,
+      height: 350,
+      width: 350,
+    },
+    walk: {
+      flex: 1,
+      alignItems: 'center',
+      paddingTop: 50
     }
-  })
+   });
 
   export default Walk
