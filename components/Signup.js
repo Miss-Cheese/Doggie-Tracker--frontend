@@ -37,7 +37,7 @@ class Signup extends React.Component {
                 {cancelable: true},
               );
         } else {
-            fetch('http://localhost:3000/users', {
+            fetch('http://192.168.2.147:3000/users', {
               method: "POST",
               headers: {
                 'Content-Type': 'application/json',

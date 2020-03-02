@@ -44,7 +44,7 @@ import { StyleSheet, View, Text, TextInput, Button, Picker, Alert } from 'react-
           {cancelable: true},
         );
       } else {
-        fetch('http://localhost:3000/meals', {
+        fetch('http://192.168.2.147:3000/meals', {
           method: "POST",
           headers: {
             'Content-Type': 'application/json',
@@ -55,6 +55,7 @@ import { StyleSheet, View, Text, TextInput, Button, Picker, Alert } from 'react-
       }
       this.getRecentMeals()
       this.setState({
+        ...this.state,
         mealInfo: {
           ...this.state.mealInfo,
           food: '',
@@ -65,7 +66,7 @@ import { StyleSheet, View, Text, TextInput, Button, Picker, Alert } from 'react-
     }
 
     getRecentMeals = () => {
-      fetch('http://localhost:3000/meals')
+      fetch('http://192.168.2.147:3000/meals')
       .then(response => response.json())
       .then(recentMealData => this.setState({
         recentMeals: recentMealData.reverse()

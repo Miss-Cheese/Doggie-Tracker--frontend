@@ -54,7 +54,7 @@ class UserProfile extends React.Component {
                 {cancelable: true},
               );
         } else {
-            fetch(`http://localhost:3000/users/${this.props.currentUser.id}`, {
+            fetch(`http://192.168.2.147:3000/users/${this.props.currentUser.id}`, {
               method: "PATCH",
               headers: {
                 'Content-Type': 'application/json',
@@ -76,7 +76,7 @@ class UserProfile extends React.Component {
             [ {text: 'OK', onPress: () => console.log('OK Pressed')}],
             {cancelable: true},
           );
-          fetch(`http://localhost:3000/users/${this.props.currentUser.id}`, {
+          fetch(`http://192.168.2.147:3000/users/${this.props.currentUser.id}`, {
             method: "DELETE"
         })    
     }

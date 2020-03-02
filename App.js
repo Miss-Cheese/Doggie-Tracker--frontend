@@ -16,6 +16,7 @@ import { log } from 'react-native-reanimated';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
 import Emergency from './components/Emergency';
 
+global.BASE_URL = `https://doggie-tracker.herokuapp.com/`
 const Stack = createStackNavigator();
 
 class App extends React.Component {
@@ -31,8 +32,7 @@ class App extends React.Component {
     this.setState({
       loggedIn: true,
       currentUser: loggedInUser
-    })
-    this.getUserDogs()
+    }, () => this.getUserDogs())
   }
 
   getUserDogs = () => {
@@ -67,6 +67,8 @@ class App extends React.Component {
   }
 
   render () {
+
+    console.log(this.state)
 
     return (
       <NavigationContainer>
