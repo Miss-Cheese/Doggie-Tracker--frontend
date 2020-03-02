@@ -17,6 +17,7 @@ import { StyleSheet, View, Text, TextInput, Button, Alert } from 'react-native';
 
       let currentDate = new Date()
       this.setState({
+        ...this.state,
         weightInfo: {
           ...this.state.weightInfo,
           amount: input, 
@@ -35,7 +36,7 @@ import { StyleSheet, View, Text, TextInput, Button, Alert } from 'react-native';
           {cancelable: true},
         );
       } else {
-        fetch('http://localhost:3000/weights', { 
+        fetch('http://192.168.2.147:3000/weights', { 
           method: "POST",
           headers: {
             'Content-Type': 'application/json',
@@ -49,7 +50,7 @@ import { StyleSheet, View, Text, TextInput, Button, Alert } from 'react-native';
 
     
     getRecentWeight = () => {
-      fetch('http://localhost:3000/weights')
+      fetch('http://192.168.2.147:3000/weights')
       .then(response => response.json())
       .then(recentWeightData => this.setState({
         recentWeight: recentWeightData.reverse()

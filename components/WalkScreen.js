@@ -1,7 +1,8 @@
 import React from 'react';
+import { StyleSheet, View, Text, TextInput, Button, Alert } from 'react-native';
 import MapView, { PROVIDER_GOOGLE, Polyline } from 'react-native-maps'
-
-import { StyleSheet, View, Text, TextInput, Button} from 'react-native';
+import {request, PERMISSIONS} from 'react-native-permissions';
+import Geolocation from '@react-native-community/geolocation';
 
   class Walk extends React.Component {
 
@@ -12,110 +13,189 @@ import { StyleSheet, View, Text, TextInput, Button} from 'react-native';
         start_time: '7:00',
         finish_time: '7:25',
         pee: 0,
-        poop: 0
+        poop: 0,
+        datapoints: []
       },
-      recentWalks: []
+      recentWalks: [],
+      initialPosition: null,
+      lastPosition: null
     }
 
+    componentDidMount() {
+      this.requestLocationPermission()
+      this.getRecentWalks()
+    }
 
-    toggleWalkStatus = () => {
-      if (this.state.walkOn === false) {
-        this.setState({
-          walkOn: true
-        })
-        this.startWalk()
-      } 
-      else {
-        this.setState({
-        walkOn: false
-      })
-      this.finishWalk()
-    }}
+    requestLocationPermission = async () => {
+      if (Platform.OS === 'ios') {
+         let response = await request(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE)
+         if (response === 'granted') {
+             this.locateCurrentPosition()
+         }
+      } else {
+         let response = await request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION)
+         if (response === 'granted') {
+             this.locateCurrentPosition()
+         }
+      }
+     }
 
-    startWalk = () => {
-      let currentDate = new Date()
+
+    locateCurrentPosition = () => {
+    Geolocation.getCurrentPosition(
+        position => {
+
+            let initialPosition = {
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+                latitudeDelta: 0.015,
+                longitudeDelta: 0.0121,
+            }
+
+            this.setState({initialPosition })
+        },
+        error => Alert.alert(error.message),
+        {enableHighAccuracy: true, timeout: 10000, maximumAge: 1000}
+    );
+    this.watchID = Geolocation.watchPosition(position => {
+      const lastPosition = {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+      };
       this.setState({
+        ...this.state, 
         walkInfo: {
           ...this.state.walkInfo,
-          start_time: currentDate.toString()
+          datapoints: [...this.state.walkInfo.datapoints, lastPosition]
         }
       })
-    }
+    },
+    error => Alert.alert(error.message),
+    {enableHighAccuracy: true, distanceFilter: 100}
+    )
+  }
 
-    finishWalk = () => {
-      let currentDate = new Date()
-      this.setState({
-        walkInfo: {
-          ...this.state.walkInfo,
-          finish_time: currentDate.toString()
-        }
-      }, () => this.saveWalkToDb())
-    }
+  componentWillUnmount() {
+    this.watchID != null && Geolocation.clearWatch(this.watchID);
+  }
 
-    recordPee = () => {
+  toggleWalkStatus = () => {
+    if (this.state.walkOn === false) {
       this.setState({
-        walkInfo: {
-          ...this.state.walkInfo,
-          pee: this.state.walkInfo.pee + 1
-        }
+        walkOn: true
       })
-    }
-
-    recordPoop = () => {
+      this.startWalk()
+    } 
+    else {
       this.setState({
-        walkInfo: {
-          ...this.state.walkInfo,
-          poop: this.state.walkInfo.poop + 1
-        }
-      })
-    }
+      walkOn: false
+    })
+    this.finishWalk()
+  }}
 
-    saveWalkToDb = () => {
-      fetch('http://localhost:3000/walks', {
+  startWalk = () => {
+    let currentDate = new Date()
+    this.setState({
+      walkInfo: {
+        ...this.state.walkInfo,
+        start_time: currentDate.toString()
+      }
+    })
+  }
+
+  finishWalk = () => {
+    let currentDate = new Date()
+    this.setState({
+      ...this.state, 
+      walkInfo: {
+        ...this.state.walkInfo,
+        finish_time: currentDate.toString()
+      }
+    }, () => this.saveWalkToDb())
+  }
+
+  recordPee = () => {
+    this.setState({
+      ...this.state, 
+      walkInfo: {
+        ...this.state.walkInfo,
+        pee: this.state.walkInfo.pee + 1
+      }
+    })
+  }
+
+  recordPoop = () => {
+    this.setState({
+      ...this.state, 
+      walkInfo: {
+        ...this.state.walkInfo,
+        poop: this.state.walkInfo.poop + 1
+      }
+    })
+  }
+
+  saveWalkToDb = () => {
+    fetch('http://localhost:3000/walks', {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(this.state.walkInfo) 
+    })
+    .then(response => response.json())
+    .then(walkData => {
+      this.state.walkInfo.datapoints.forEach(datapoint => this.saveDatapointsToDb(walkData.id, datapoint.latitude, datapoint.longitude))
+    })
+    this.props.navigation.navigate('Dashboard')
+  }
+
+  saveDatapointsToDb = (id, latitude, longitude) => {
+    fetch('http://localhost:3000/datapoints', {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
-       body: JSON.stringify(this.state.walkInfo) 
+        body: JSON.stringify({
+          walk_id: id,
+          latitude: latitude,
+          longitude: longitude
+        })
       })
-      this.props.navigation.navigate('Dashboard')
-    }
+  }
 
-    getRecentWalks = () => {
-      fetch('http://localhost:3000/walks')
-      .then(response => response.json())
-      .then(recentWalkData => this.setState({
-        recentWalks: recentWalkData.reverse()
-      }))
-    }
-    
-    componentDidMount () {
-      this.getRecentWalks()
-    }
 
-    turnStringIntoDate = (stringDate) => {
-      let dateObj = new Date(Date.parse(stringDate))
-      return dateObj.toLocaleDateString()
-    }
+  getRecentWalks = () => {
+    fetch('http://192.168.2.147:3000/walks')
+    .then(response => response.json())
+    .then(recentWalkData => this.setState({
+      recentWalks: recentWalkData.reverse()
+    }))
+  }
+  
 
-    turnStringIntoTime = (stringDate) => {
-      let dateTimeObj = new Date(Date.parse(stringDate))
-      return dateTimeObj.toLocaleTimeString()
-    }
+  turnStringIntoDate = (stringDate) => {
+    let dateObj = new Date(Date.parse(stringDate))
+    return dateObj.toLocaleDateString()
+  }
 
-    getWalkDuration = (startTimeString, finishTimeString) => {
-      let startTime = new Date(Date.parse(startTimeString))
-      let finishTime = new Date(Date.parse(finishTimeString))
-      let walkDuration = (parseInt(finishTime.getTime()) - parseInt(startTime.getTime())) / 60000
-      return Math.round(walkDuration)
-    }
+  turnStringIntoTime = (stringDate) => {
+    let dateTimeObj = new Date(Date.parse(stringDate))
+    return dateTimeObj.toLocaleTimeString()
+  }
+
+  getWalkDuration = (startTimeString, finishTimeString) => {
+    let startTime = new Date(Date.parse(startTimeString))
+    let finishTime = new Date(Date.parse(finishTimeString))
+    let walkDuration = (parseInt(finishTime.getTime()) - parseInt(startTime.getTime())) / 60000
+    return Math.round(walkDuration)
+  }
 
     render () {
 
-      // let testDate = new Date()
-      // let stringValue = testDate.toString()
-      // console.log(new Date(Date.parse(stringValue)))
+      // console.log(this.state.walkInfo)
+
       return(
         <>
           <View style={styles.top}>
@@ -130,15 +210,15 @@ import { StyleSheet, View, Text, TextInput, Button} from 'react-native';
 
           <View style={styles.container}>
             <MapView
-              provider={PROVIDER_GOOGLE} 
-              style={styles.map}
-              region={{
-                latitude: 37.78825,
-                longitude: -122.4324,
-                latitudeDelta: 0.015,
-                longitudeDelta: 0.0121,
-              }}
-            >
+                provider={PROVIDER_GOOGLE} 
+                ref={map => this._map = map}
+                style={styles.map}
+                showsUserLocation={true}
+                followsUserLocation={true}
+                zoomEnabled={true}
+                scrollEnabled={true}
+                initialRegion={this.state.initialPosition}
+                >
             </MapView>
           </View>
 

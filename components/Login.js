@@ -35,6 +35,8 @@ class Login extends React.Component {
 
     render () {
 
+        // console.log(this.state)
+
         return(
             <>
             <View style={styles.container}>
@@ -58,6 +60,7 @@ class Login extends React.Component {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
+      justifyContent: "flex-start",
       alignItems: 'center',
       marginTop: 30
     }
