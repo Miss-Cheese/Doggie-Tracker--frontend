@@ -17,8 +17,8 @@ import Geolocation from '@react-native-community/geolocation';
         datapoints: []
       },
       recentWalks: [],
-      initialPosition: null,
-      lastPosition: null
+      initialPosition: null
+      // lastPosition: null
     }
 
     componentDidMount() {
@@ -71,7 +71,7 @@ import Geolocation from '@react-native-community/geolocation';
       })
     },
     error => Alert.alert(error.message),
-    {enableHighAccuracy: true, distanceFilter: 100}
+    {enableHighAccuracy: true, distanceFilter: 50}
     )
   }
 
@@ -135,7 +135,7 @@ import Geolocation from '@react-native-community/geolocation';
   }
 
   saveWalkToDb = () => {
-    fetch('http://localhost:3000/walks', {
+    fetch(`${BASE_URL}/walks`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
@@ -151,7 +151,7 @@ import Geolocation from '@react-native-community/geolocation';
   }
 
   saveDatapointsToDb = (id, latitude, longitude) => {
-    fetch('http://localhost:3000/datapoints', {
+    fetch(`${BASE_URL}/datapoints`, {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',
@@ -167,7 +167,7 @@ import Geolocation from '@react-native-community/geolocation';
 
 
   getRecentWalks = () => {
-    fetch('http://192.168.2.147:3000/walks')
+    fetch(`${BASE_URL}/walks`)
     .then(response => response.json())
     .then(recentWalkData => this.setState({
       recentWalks: recentWalkData.reverse()
@@ -196,6 +196,8 @@ import Geolocation from '@react-native-community/geolocation';
 
       // console.log(this.state.walkInfo)
 
+      new Polyline
+
       return(
         <>
           <View style={styles.top}>
@@ -219,6 +221,13 @@ import Geolocation from '@react-native-community/geolocation';
                 scrollEnabled={true}
                 initialRegion={this.state.initialPosition}
                 >
+                {this.state.walkOn && 
+                  <Polyline 
+                  coordinates={this.state.walkInfo.datapoints}
+                  geodesic={true}
+                  strokeColor={'rgb(52, 137, 148)'}
+                  strokeWidth={7}
+                  />}
             </MapView>
           </View>
 

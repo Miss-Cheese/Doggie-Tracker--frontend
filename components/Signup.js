@@ -37,7 +37,7 @@ class Signup extends React.Component {
                 {cancelable: true},
               );
         } else {
-            fetch('http://192.168.2.147:3000/users', {
+            fetch(`${BASE_URL}/users`, {
               method: "POST",
               headers: {
                 'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ class Signup extends React.Component {
 
     render () {
 
-        console.log()
+        // console.log()
 
         return (
             <>

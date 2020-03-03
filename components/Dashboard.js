@@ -13,14 +13,14 @@ function Dashboard (props) {
             <ScrollView contentInsetAdjustmentBehavior="automatic">
                 <View style={styles.container}>
                     
-                    {!props.loggedIn &&
+                    {/* {!props.loggedIn && */}
                     <>
                     <Button title="Log In" onPress={() => props.navigation.navigate('Login')} />
                     <Button title="Sign Up" onPress={() => props.navigation.navigate('Signup')} />
                     </>
-                    }
+                    {/* }
 
-                    {props.loggedIn &&
+                    {props.loggedIn && */}
                     <>
                     <Button title="Add Weight" onPress={() => props.navigation.navigate('Weight')}/>
                     <Button title="Add Meal" onPress={() => props.navigation.navigate('Meals')} />
@@ -31,7 +31,7 @@ function Dashboard (props) {
                     <Button title="Profile" onPress={() => props.navigation.navigate('UserProfile')} />
                     <Button title="Switch Dogs" onPress={() => props.navigation.navigate('SwitchDogs')} />
                     </>
-                    }
+                    {/* } */}
                 </View>
             </ScrollView>
         </SafeAreaView>

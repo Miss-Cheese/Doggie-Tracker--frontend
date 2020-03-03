@@ -16,7 +16,7 @@ class AddDog extends React.Component {
     }
 
     persistDogInDb = () => {
-        fetch('http://192.168.2.147:3000/dogs', {
+        fetch(`${BASE_URL}/dogs`, {
           method: "POST",
           headers: {
             'Content-Type': 'application/json',
