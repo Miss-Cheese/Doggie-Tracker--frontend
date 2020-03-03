@@ -36,7 +36,7 @@ import { StyleSheet, View, Text, TextInput, Button, Alert } from 'react-native';
           {cancelable: true},
         );
       } else {
-        fetch('http://192.168.2.147:3000/weights', { 
+        fetch(`${BASE_URL}/weights`, { 
           method: "POST",
           headers: {
             'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ import { StyleSheet, View, Text, TextInput, Button, Alert } from 'react-native';
 
     
     getRecentWeight = () => {
-      fetch('http://192.168.2.147:3000/weights')
+      fetch(`${BASE_URL}/weights`)
       .then(response => response.json())
       .then(recentWeightData => this.setState({
         recentWeight: recentWeightData.reverse()

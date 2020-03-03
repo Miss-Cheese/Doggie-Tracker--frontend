@@ -1,6 +1,7 @@
 # API keys
 .env
-./ios/DoggieTracker/AppDelegate.m
+apiKey.js
+AppDelegate.m
 
 # OSX
 #

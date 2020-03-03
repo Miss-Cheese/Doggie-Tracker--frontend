@@ -22,7 +22,7 @@ class Login extends React.Component {
 
     handleLogIn = () => {
         let loggedInUser
-        fetch("http://localhost:3000/users")
+        fetch(`${BASE_URL}/users`)
           .then(response => response.json())
           .then(data => {
             loggedInUser = data.find(user => user.email === this.state.email)
