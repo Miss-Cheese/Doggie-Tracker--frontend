@@ -51,7 +51,7 @@ class Emergency extends React.Component {
     }
 
     findAnimalHospital = () => {
-        fetch(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=Animal%20Hospital&inputtype=textquery&fields=photos,formatted_address,name,rating,opening_hours,geometry/location&key=AIzaSyADjUilVsHGxKHDnYYRFvx_4i0SzzaQhYs`)
+        fetch(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=Animal%20Hospital&inputtype=textquery&fields=photos,formatted_address,name,rating,opening_hours,geometry/location&key=${process.env.REACT_APP_GOOGLE_API_KEY}`)
         .then(response => response.json())
         .then(responseData => this.setState({
             hospitalFound: true,
