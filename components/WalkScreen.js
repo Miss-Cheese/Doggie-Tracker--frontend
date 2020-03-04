@@ -17,8 +17,8 @@ import Geolocation from '@react-native-community/geolocation';
         datapoints: []
       },
       recentWalks: [],
-      initialPosition: null
-      // lastPosition: null
+      initialPosition: null,
+      lastGeoPosition: null
     }
 
     componentDidMount() {
@@ -69,6 +69,9 @@ import Geolocation from '@react-native-community/geolocation';
           datapoints: [...this.state.walkInfo.datapoints, lastPosition]
         }
       })
+      this.setState({
+        lastGeoPosition: lastPosition
+      })
     },
     error => Alert.alert(error.message),
     {enableHighAccuracy: true, distanceFilter: 50}
@@ -85,6 +88,7 @@ import Geolocation from '@react-native-community/geolocation';
         walkOn: true
       })
       this.startWalk()
+      this.handleCenter()
     } 
     else {
       this.setState({
@@ -195,9 +199,16 @@ import Geolocation from '@react-native-community/geolocation';
     return Math.round(walkDuration)
   }
 
+  handleCenter = () => {
+    this._map.animateToRegion({
+        latitude: this.state.lastGeoPosition.latitude, 
+        longitude: this.state.lastGeoPosition.longitude
+    })
+}
+
     render () {
 
-      // console.log(this.state.walkInfo)
+      // console.log(this.state.walkInf1o)
 
       new Polyline
 
