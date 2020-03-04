@@ -9,7 +9,7 @@ import Geolocation from '@react-native-community/geolocation';
     state = {
       walkOn: false,
       walkInfo: {
-        dog_id: 1,
+        dog_id: this.props.currentDog.id,
         start_time: '7:00',
         finish_time: '7:25',
         pee: 0,
@@ -201,7 +201,7 @@ import Geolocation from '@react-native-community/geolocation';
       return(
         <>
           <View style={styles.top}>
-            {/* <Text>Binky's Walks</Text> */}
+            <Text>{this.props.currentDog.name}'s Walks</Text>
             {this.state.walkOn === true ? <Button title="Finish Walk" onPress={this.toggleWalkStatus}></Button> :
             <Button title="Start Walk" onPress={this.toggleWalkStatus}></Button> }
             {this.state.walkOn && <View>

@@ -5,7 +5,7 @@ import { StyleSheet, View, Text, TextInput, Button, Picker, Alert } from 'react-
 
     state = {
       mealInfo: {
-        dog_id: 1,
+        dog_id: this.props.currentDog.id,
         food: '',
         meal_type: '',
         datetime: ''
@@ -92,7 +92,7 @@ import { StyleSheet, View, Text, TextInput, Button, Picker, Alert } from 'react-
       return(
         <>
         <View style={styles.container}>
-          <Text>Binky's Meals</Text>
+        <Text>{this.props.currentDog.name}'s Meals</Text>
           <TextInput
             style={{ height: 40, width: 100, borderColor: 'gray', borderWidth: 1 }}
             value={this.state.mealInfo.food}
