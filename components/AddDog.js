@@ -24,6 +24,7 @@ class AddDog extends React.Component {
           },
          body: JSON.stringify(this.state) 
         })
+        this.props.getUserDogs()
         this.props.navigation.navigate('UserProfile')
       }
 

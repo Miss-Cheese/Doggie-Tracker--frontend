@@ -6,7 +6,10 @@ function SwitchDogs (props) {
     return (
         <View style={styles.container}>
             <Text>Your Dogs: </Text>
-            {props.userDogs.map(dog => <Text key={dog.id}>{dog.name}</Text> )}
+            {props.userDogs.map(dog => <View key={dog.id}>
+                <Text style={styles.titleText}> {dog.name} </Text>
+                    <Button title="Select"></Button>
+                </View> )}
         </View>
     )
 }
@@ -19,5 +22,10 @@ const styles = StyleSheet.create({
       flex: 1,
       alignItems: 'center',
       marginTop: 30
-    }
+    },
+    titleText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    alignContent: 'center'
+    },
   })

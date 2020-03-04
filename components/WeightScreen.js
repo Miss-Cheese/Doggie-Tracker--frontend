@@ -48,14 +48,17 @@ import { StyleSheet, View, Text, TextInput, Button, Alert } from 'react-native';
       this.props.navigation.navigate('Dashboard')
     }
 
-    
     getRecentWeight = () => {
       fetch(`${BASE_URL}/weights`)
       .then(response => response.json())
-      .then(recentWeightData => this.setState({
-        recentWeight: recentWeightData.reverse()
-      }))
+      .then(recentWeightData => {
+        let currentDogWeights = recentWeightData.filter(weight => weight.dog_id === this.props.currentDog.id)
+        this.setState({
+          recentWeight: currentDogWeights.reverse()
+        })
+      })
     }
+
     
     componentDidMount () {
       this.getRecentWeight()
@@ -72,14 +75,13 @@ import { StyleSheet, View, Text, TextInput, Button, Alert } from 'react-native';
       // console.log(stringValue) - this is to save in the database
       // console.log(new Date(Date.parse(stringValue))) - this is to get the date object back from the string
 
-      // console.log(this.props.currentDog.id)
+      console.log(this.state.recentWeight)
   
       
       return(
         <>
           <View style={styles.container}>
-            <Text>Binky's Weight</Text>
-            <Text>Today's Weight</Text>
+          <Text>Add {this.props.currentDog.name}'s weight for today</Text>
             <TextInput
               style={{ height: 40, width: 50, borderColor: 'gray', borderWidth: 1 }}
               keyboardType='numeric'

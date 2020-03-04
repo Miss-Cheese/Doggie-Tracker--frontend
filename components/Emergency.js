@@ -86,14 +86,15 @@ class Emergency extends React.Component {
                   >
                 {this.state.hospitalFound && 
                 <>
-                
+               
                   <Marker
                   coordinate={{ latitude: this.state.apiResponse.geometry.location.lat, longitude: this.state.apiResponse.geometry.location.lng }}>
                       <Callout>
                         <Text>{this.state.apiResponse.name}</Text>
                       </Callout>
-    
                 </Marker>
+
+              
                 </>
                 }
                 </MapView>

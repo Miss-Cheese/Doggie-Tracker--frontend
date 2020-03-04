@@ -35,16 +35,22 @@ class App extends React.Component {
     }, () => this.getUserDogs())
   }
 
+  logoutUser = () => {
+    this.setState({
+      loggedIn: false
+    })
+  }
+
   getUserDogs = () => {
-    fetch("http://localhost:3000/dogs")
+    fetch(`${BASE_URL}/dogs`)
     .then(response => response.json())
     .then(data => {
-      dogs = data.filter(dog => dog.user.id === this.state.currentUser.id)
+      dogs = data.filter(dog => 
+        dog.user !== null && dog.user.id === this.state.currentUser.id)
       this.setState({
           userDogs: dogs
       }, () => this.setCurrentDog())
     })
-    
   }
 
   setCurrentDog = () => {
@@ -68,7 +74,7 @@ class App extends React.Component {
 
   render () {
 
-    // console.log(REACT_APP_GOOGLE_API_KEY)
+    console.log(this.state)
 
     return (
       <NavigationContainer>
@@ -80,22 +86,29 @@ class App extends React.Component {
           <Stack.Screen name="Signup" component={Signup}/>
 
           <Stack.Screen name="Dashboard" options={{headerTitle: props => <Text {...props}>Dashboard</Text>}}>
-            {props => <Dashboard {...props} loggedIn={this.state.loggedIn}/>}
+            {props => <Dashboard {...props} loggedIn={this.state.loggedIn} currentDog={this.state.currentDog} userDogs={this.state.userDogs}/> }
             </Stack.Screen>
 
           <Stack.Screen name="Weight" options={{headerTitle: props => <Text {...props}>Weight</Text>}}>
             {props => <WeightScreen {...props} currentDog={this.state.currentDog}/>}
             </Stack.Screen>
 
-          <Stack.Screen name="Meals" component={MealScreen}/>
-          <Stack.Screen name="Walk" component={WalkScreen}/>
+          <Stack.Screen name="Meals" options={{headerTitle: props => <Text {...props}>Meals</Text>}}>
+            {props => <MealScreen {...props} currentDog={this.state.currentDog}/>}
+            </Stack.Screen>
+
+          <Stack.Screen name="Walk" options={{headerTitle: props => <Text {...props}>Walk</Text>}}>
+            {props => <WalkScreen {...props} currentDog={this.state.currentDog}/>}
+            </Stack.Screen>
 
           <Stack.Screen name="Emergency" component={Emergency}/>
 
           <Stack.Screen name="UserProfile" options={{headerTitle: props => <Text {...props}>Profile</Text>}}>
             {props => <UserProfile {...props} currentUser={this.state.currentUser} 
             userDogs={this.state.userDogs}
-            updateUserInfoAfterEdit={this.updateUserInfoAfterEdit}/>}
+            updateUserInfoAfterEdit={this.updateUserInfoAfterEdit}
+            logoutUser={this.logoutUser}
+            />}
             </Stack.Screen>
 
           <Stack.Screen name="SwitchDogs" options={{headerTitle: props => <Text {...props}>Select Dog</Text>}}>
@@ -105,7 +118,7 @@ class App extends React.Component {
           </Stack.Screen>
 
           <Stack.Screen name="AddDog" options={{headerTitle: props => <Text {...props}>Add Dog</Text>}}>
-            {props => <AddDog {...props} currentUser={this.state.currentUser}/>}
+            {props => <AddDog {...props} currentUser={this.state.currentUser} getUserDogs={this.getUserDogs}/>}
             </Stack.Screen>
       </Stack.Navigator>
       </NavigationContainer>

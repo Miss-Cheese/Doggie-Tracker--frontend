@@ -73,12 +73,17 @@ class UserProfile extends React.Component {
         Alert.alert(
             'Alert',
             'Are you sure you want to delete this user?',
-            [ {text: 'OK', onPress: () => console.log('OK Pressed')}],
+            [ {text: 'OK', onPress: () => this.deleteUserFromDBandLogOut}],
             {cancelable: true},
           );
-          fetch(`${BASE_URL}/users/${this.props.currentUser.id}`, {
+          
+    }
+
+    deleteUserFromDBandLogOut = () => {
+        fetch(`${BASE_URL}/users/${this.props.currentUser.id}`, {
             method: "DELETE"
         })    
+        this.props.logoutUser()
     }
 
 
@@ -111,12 +116,16 @@ class UserProfile extends React.Component {
                 <Button title="Delete Your Profile" onPress={this.deleteUser}></Button>
             </View>
             <View style={styles.container}>
-                <Text>Your Dogs: </Text>
+             { this.props.userDogs.length > 1 ?
+                    <>
+                    <Text>Your Dogs: </Text>
                     { 
                         this.props.userDogs.map(dog => 
                             <Text key={dog.id}>{dog.name}</Text>
                             )
                     }
+                    </> : <Text>You don't have any dogs yet.</Text>
+             }
                 
                 <Button title="Add new dog" onPress={() => this.props.navigation.navigate('AddDog')} />
             </View>
