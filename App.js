@@ -67,6 +67,7 @@ class App extends React.Component {
       this.setState({
         currentDog: dog
       })
+      // this.props.navigation.navigate('Dashboard')
     }
   }
 
