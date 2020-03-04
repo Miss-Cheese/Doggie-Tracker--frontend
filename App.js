@@ -18,6 +18,7 @@ import Emergency from './components/Emergency';
 
 global.BASE_URL = `https://doggie-tracker.herokuapp.com`
 const Stack = createStackNavigator();
+console.disableYellowBox = true
 
 class App extends React.Component {
 
@@ -45,7 +46,7 @@ class App extends React.Component {
     fetch(`${BASE_URL}/dogs`)
     .then(response => response.json())
     .then(data => {
-      dogs = data.filter(dog => 
+      let dogs = data.filter(dog => 
         dog.user !== null && dog.user.id === this.state.currentUser.id)
       this.setState({
           userDogs: dogs
@@ -53,14 +54,23 @@ class App extends React.Component {
     })
   }
 
-  setCurrentDog = () => {
-    if (this.state.userDogs.length !== 0)
-     {
+  setCurrentDog = (dog = null) => {
+    if (!dog) {
+      if (this.state.userDogs.length !== 0)
+       {
+        this.setState({
+          currentDog: this.state.userDogs[0]
+        })
+       }
+    }
+    else {
       this.setState({
-        currentDog: this.state.userDogs[0]
+        currentDog: dog
       })
-     }
+    }
   }
+
+
 
   updateUserInfoAfterEdit = (userInfo) => {
     this.setState({
@@ -74,7 +84,7 @@ class App extends React.Component {
 
   render () {
 
-    console.log(this.state)
+    console.log(this.state.currentDog)
 
     return (
       <NavigationContainer>
@@ -113,7 +123,7 @@ class App extends React.Component {
 
           <Stack.Screen name="SwitchDogs" options={{headerTitle: props => <Text {...props}>Select Dog</Text>}}>
           {props => <SwitchDogs {...props} currentUser={this.state.currentUser} 
-          userDogs={this.state.userDogs}
+          userDogs={this.state.userDogs} setCurrentDog={this.setCurrentDog}
           currentDog={this.state.currentDog}/>}
           </Stack.Screen>
 

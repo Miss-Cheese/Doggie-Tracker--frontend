@@ -60,7 +60,6 @@ import { StyleSheet, View, Text, TextInput, Button, Picker, Alert } from 'react-
           ...this.state.mealInfo,
           food: '',
           meal_type: ''
-         
         }
       })
     }
@@ -68,10 +67,14 @@ import { StyleSheet, View, Text, TextInput, Button, Picker, Alert } from 'react-
     getRecentMeals = () => {
       fetch(`${BASE_URL}/meals`)
       .then(response => response.json())
-      .then(recentMealData => this.setState({
-        recentMeals: recentMealData.reverse()
-      }))
+      .then(recentMealData => {
+        let currentDogMeals = recentMealData.filter(meal => meal.dog_id === this.props.currentDog.id)
+        this.setState({
+        recentMeals: currentDogMeals.reverse()})
+      })
     }
+
+
 
     componentDidMount () {
       this.getRecentMeals()
