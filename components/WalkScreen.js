@@ -169,9 +169,12 @@ import Geolocation from '@react-native-community/geolocation';
   getRecentWalks = () => {
     fetch(`${BASE_URL}/walks`)
     .then(response => response.json())
-    .then(recentWalkData => this.setState({
-      recentWalks: recentWalkData.reverse()
-    }))
+    .then(recentWalkData => {
+      let currentDogWalks = recentWalkData.filter(walk => walk.dog_id === this.props.currentDog.id)
+      this.setState({
+          recentWalks: currentDogWalks.reverse()
+        })
+    })
   }
   
 
@@ -201,7 +204,7 @@ import Geolocation from '@react-native-community/geolocation';
       return(
         <>
           <View style={styles.top}>
-            <Text>{this.props.currentDog.name}'s Walks</Text>
+            {/* <Text>{this.props.currentDog.name}'s Walks</Text> */}
             {this.state.walkOn === true ? <Button title="Finish Walk" onPress={this.toggleWalkStatus}></Button> :
             <Button title="Start Walk" onPress={this.toggleWalkStatus}></Button> }
             {this.state.walkOn && <View>

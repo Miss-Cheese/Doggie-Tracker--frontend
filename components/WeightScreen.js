@@ -74,9 +74,6 @@ import { StyleSheet, View, Text, TextInput, Button, Alert } from 'react-native';
       
       // console.log(stringValue) - this is to save in the database
       // console.log(new Date(Date.parse(stringValue))) - this is to get the date object back from the string
-
-      console.log(this.state.recentWeight)
-  
       
       return(
         <>
@@ -84,6 +81,7 @@ import { StyleSheet, View, Text, TextInput, Button, Alert } from 'react-native';
           <Text>Add {this.props.currentDog.name}'s weight for today</Text>
             <TextInput
               style={{ height: 40, width: 50, borderColor: 'gray', borderWidth: 1 }}
+              placeholder="lbs"
               keyboardType='numeric'
               value={this.state.amount}
               maxLength={3}

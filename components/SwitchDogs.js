@@ -8,7 +8,7 @@ function SwitchDogs (props) {
             <Text>Your Dogs: </Text>
             {props.userDogs.map(dog => <View key={dog.id}>
                 <Text style={styles.titleText}> {dog.name} </Text>
-                    <Button title="Select"></Button>
+                    <Button title="Select" onPress={() => props.setCurrentDog(dog)}></Button>
                 </View> )}
         </View>
     )

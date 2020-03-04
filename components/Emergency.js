@@ -4,6 +4,7 @@ import MapView, { PROVIDER_GOOGLE, Marker, Callout } from 'react-native-maps';
 import {request, PERMISSIONS} from 'react-native-permissions';
 import Geolocation from '@react-native-community/geolocation';
 import getApiKey from './apiKey'
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 class Emergency extends React.Component {
@@ -57,11 +58,20 @@ class Emergency extends React.Component {
         .then(responseData => this.setState({
             hospitalFound: true,
             apiResponse: responseData.candidates[0]
-        }, () => this.printLocation()))
+        }, () => this.handleCenter()))
     }
 
-    printLocation = () => {
-        console.log(this.state.apiResponse)
+    // printLocation = () => {
+    //     console.log(this.state.apiResponse)
+    // }
+
+    handleCenter = () => {
+        this._map.animateToRegion({
+            latitude: this.state.apiResponse.geometry.location.lat, 
+            longitude: this.state.apiResponse.geometry.location.lng,
+            latitudeDelta: 0.015,
+            longitudeDelta: 0.0121, 
+        })
     }
 
     render () {
@@ -70,7 +80,7 @@ class Emergency extends React.Component {
             <View>
                 <>
                 <View style={styles.button}>
-                    <Button title="Find Emergency Vet" onPress={this.findAnimalHospital}></Button>    
+                    <Button title="Find Emergency Vet" onPress={this.findAnimalHospital}></Button>  
                 </View>
 
                 <View style={styles.container}>
@@ -82,7 +92,6 @@ class Emergency extends React.Component {
                   zoomEnabled={true}
                   scrollEnabled={true}
                   initialRegion={this.state.initialPosition}
-                  zoom
                   >
                 {this.state.hospitalFound && 
                 <>
@@ -92,8 +101,8 @@ class Emergency extends React.Component {
                       <Callout>
                         <Text>{this.state.apiResponse.name}</Text>
                       </Callout>
-                </Marker>
-
+                    </Marker>
+                    
               
                 </>
                 }
@@ -119,9 +128,9 @@ const styles = StyleSheet.create({
       padding: 5
     },
     map: {
-      // ...StyleSheet.absoluteFillObject,
-      height: 350,
-      width: 350,
+    //   ...StyleSheet.absoluteFillObject,
+      height: 500,
+      width: 400,
     },
     button: {
         marginTop: 30

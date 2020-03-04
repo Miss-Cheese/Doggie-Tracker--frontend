@@ -60,6 +60,10 @@ class Signup extends React.Component {
                 <View>
                     <TextInput style={{ height: 40, width: 200, borderColor: 'gray', borderWidth: 1 }}
                     value={this.state.email} placeholder="Email"
+                    textContentType="emailAddress"
+                    autoCompleteType="email"
+                    keyboardType="email-address"
+                    autoCapitalize="none"
                     onChangeText={(input) => this.updateEmailInState(input)}/>
 
                     <TextInput style={{ height: 40, width: 200, borderColor: 'gray', borderWidth: 1 }}
@@ -68,6 +72,8 @@ class Signup extends React.Component {
 
                     <TextInput style={{ height: 40, width: 200, borderColor: 'gray', borderWidth: 1 }}
                     value={this.state.password} placeholder="Password"
+                    secureTextEntry={true}
+                    
                     onChangeText={(input) => this.updatePasswordInState(input)}/>
                 </View>
                 <Button title="Sign Up" onPress={this.persistUserInDb}></Button>
