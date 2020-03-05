@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, View, Text, TextInput, Button, Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { LineChart } from "react-native-chart-kit";
+
 
   class Weight extends React.Component {
 
@@ -55,7 +57,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
       .then(recentWeightData => {
         let currentDogWeights = recentWeightData.filter(weight => weight.dog_id === this.props.currentDog.id)
         this.setState({
-          recentWeight: currentDogWeights.reverse()
+          recentWeight: currentDogWeights.slice(-6)
         })
       })
     }
@@ -67,15 +69,15 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
     turnStringIntoDate = (stringDate) => {
       let dateObj = new Date(Date.parse(stringDate))
-      return dateObj.toLocaleDateString()
+      let dstring = dateObj.toLocaleDateString()
+      return dstring.substring(0, dstring.length - 5)
     }
 
     
     render () {
       
-      // console.log(stringValue) - this is to save in the database
-      // console.log(new Date(Date.parse(stringValue))) - this is to get the date object back from the string
-      
+      let displayWeights = this.state.recentWeight.filter(weight => weight.amount > 0)
+
       return(
         <>
           <View style={styles.container}>
@@ -92,16 +94,48 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
             </TouchableOpacity>
           </View>
 
-          {this.state.recentWeight.length !== 0 ? 
+          {displayWeights.length !== 0 ?
           <View style={styles.container}>
-            <Text>Weight History</Text>
-            {this.state.recentWeight.slice(0,5).map(weight => 
-                <Text key={weight.id}> 
-                  Date: {this.turnStringIntoDate(weight.date)}{"\n"}
-                  Weight: {weight.amount} lbs
-                </Text> 
-                )
-            }
+          <Text>Weight History</Text>
+          <LineChart
+    data={{
+      labels: displayWeights.map(weight => this.turnStringIntoDate(weight.date)),
+      datasets: [
+        {
+          data:
+            displayWeights.map(weight => weight.amount)
+
+        }
+      ]
+    }}
+    width={380} // from react-native
+    height={300}
+    yAxisSuffix=" lbs"
+    fromZero={true}
+    yAxisInterval={1} // optional, defaults to 1
+    chartConfig={{
+      backgroundColor: "#ffaaff",
+      backgroundGradientFrom: "#b64d87",
+      backgroundGradientTo: "#e67da7",
+      decimalPlaces: 1, // optional, defaults to 2dp
+      color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+      labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+      style: {
+        borderRadius: 16
+      },
+      propsForDots: {
+        r: "6",
+        strokeWidth: "2",
+        stroke: "#993399"
+      }
+    }}
+    bezier
+    style={{
+      marginVertical: 8,
+      borderRadius: 16
+    }}
+  />
+
           </View> : <View style={styles.container}><Text>No Recent Weight History</Text></View>
           }
         </>  
