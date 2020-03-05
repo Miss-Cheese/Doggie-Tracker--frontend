@@ -63,11 +63,10 @@ class Emergency extends React.Component {
     }
 
     openSystemMaps() {
-        openMap({ 
+        openMap({
             provider: "google",
-            latitude: this.state.apiResponse.geometry.location.lat, 
-            longitude: this.state.apiResponse.geometry.location.lng });
-      }
+            query: "animal hospital"});
+    }
 
     handleCenter = () => {
         this._map.animateToRegion({
