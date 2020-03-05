@@ -37,6 +37,8 @@ target 'DoggieTracker' do
   permissions_path = '../node_modules/react-native-permissions/ios'
   pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse.podspec"
 
+  pod 'RNSVG', :path => '../node_modules/react-native-svg'
+
   target 'DoggieTrackerTests' do
     inherit! :search_paths
     # Pods for testing
