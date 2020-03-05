@@ -202,7 +202,9 @@ import Geolocation from '@react-native-community/geolocation';
   handleCenter = () => {
     this._map.animateToRegion({
         latitude: this.state.lastGeoPosition.latitude, 
-        longitude: this.state.lastGeoPosition.longitude
+        longitude: this.state.lastGeoPosition.longitude,
+        latitudeDelta: 0.015,
+        longitudeDelta: 0.0121,
     })
 }
 
@@ -270,12 +272,12 @@ import Geolocation from '@react-native-community/geolocation';
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
-      marginTop: 30,
-      padding: 5
+      padding: 5,
+      backgroundColor: '#4db6ac'
     },
     top: {
-      paddingTop: 30,
-      justifyContent: 'flex-end'
+      justifyContent: 'flex-end',
+      backgroundColor: '#4db6ac'
     },
     map: {
       // ...StyleSheet.absoluteFillObject,
@@ -285,7 +287,8 @@ import Geolocation from '@react-native-community/geolocation';
     walk: {
       flex: 1,
       alignItems: 'center',
-      paddingTop: 50
+      paddingTop: 50,
+      backgroundColor: '#4db6ac'
     }
    });
 

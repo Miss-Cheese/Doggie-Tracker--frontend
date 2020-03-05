@@ -7,47 +7,60 @@ function Dashboard (props) {
 
     return (
       <>
-      <SafeAreaView>
-          <ScrollView contentInsetAdjustmentBehavior="automatic">
-              <View style={styles.container}>
-                  
-                  {/* {!props.loggedIn && } */}
-                  <>
-                  <Button title="Log In" onPress={() => props.navigation.navigate('Login')} />
-                  <Button title="Sign Up" onPress={() => props.navigation.navigate('Signup')} />
-                  </>
-                  
+        <View style={styles.container}>
+            
+            {!props.loggedIn && 
+            <>
+            <TouchableOpacity onPress={() => props.navigation.navigate('Login')} style={styles.buttonStyle}>
+              <Text style={styles.buttonText}>Log In</Text>
+            </TouchableOpacity>
 
-                  {/* {
-                    props.loggedIn && props.userDogs.length === 0 ?
-                    <>
-                    <Text>You don't have any dogs yet!</Text>
-                    <Button title="Add a dog" onPress={() => props.navigation.navigate('AddDog')}/>
-                    </> : null
-                  } */}
+            <TouchableOpacity onPress={() => props.navigation.navigate('Signup')} style={styles.buttonStyle}>
+              <Text style={styles.buttonText}>Sign Up</Text>
+            </TouchableOpacity>
+            </>
+            }
+            {
+              props.loggedIn && props.userDogs.length === 0 ?
+              <>
+              <Text>You don't have any dogs yet!</Text>
+              <Button title="Add a dog" onPress={() => props.navigation.navigate('AddDog')}/>
+              </> : null
+            }
 
-                  {/* {props.loggedIn && props.userDogs.length > 0 ? : null } */}
-                  <>
-                  <Text style={styles.titleText}>{props.currentDog.name}'s Dashboard</Text>
-                  <Button title="Add Weight" onPress={() => props.navigation.navigate('Weight')}/>
-                  <Button title="Add Meal" onPress={() => props.navigation.navigate('Meals')} />
+            {props.loggedIn && props.userDogs.length > 0 ? 
+            <>
+            <Text style={styles.titleText}>{props.currentDog.name}'s Dashboard</Text>
 
-                  <Button title="Walk!" onPress={() => props.navigation.navigate('Walk')} />
+            <TouchableOpacity onPress={() => props.navigation.navigate('Walk')} style={[styles.buttonStyle, styles.walkButton]}>
+              <Text style={[styles.buttonText, styles.walkButtonText]}>Walk!</Text>
+            </TouchableOpacity>
 
-                  <Button title="Emergency" onPress={() => props.navigation.navigate('Emergency')} />
+            <TouchableOpacity onPress={() => props.navigation.navigate('Weight')} style={styles.buttonStyle}>
+              <Text style={styles.buttonText}>Add Weight</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity onPress={() => props.navigation.navigate('Meals')} style={styles.buttonStyle}>
+              <Text style={styles.buttonText}>Add Meal</Text>
+            </TouchableOpacity>
 
-                  <Button title="Profile" onPress={() => props.navigation.navigate('UserProfile')} />
-                  </> 
-                  { props.userDogs.length > 1 ? 
-                  <>
-                  <Button title="Switch Dogs" onPress={() => props.navigation.navigate('SwitchDogs')} /> 
-                  </> : null }
-                  
-                  
-                     
-              </View>
-          </ScrollView>
-      </SafeAreaView>
+            <TouchableOpacity onPress={() => props.navigation.navigate('UserProfile')} style={styles.buttonStyle}>
+              <Text style={styles.buttonText}>Profile</Text>
+            </TouchableOpacity>
+            </> 
+            : null }
+            { props.userDogs.length > 1 ? 
+            <>
+            <TouchableOpacity onPress={() => props.navigation.navigate('SwitchDogs')} style={styles.buttonStyle}>
+              <Text style={styles.buttonText}>Switch Dogs</Text>
+            </TouchableOpacity>
+            </> : null }
+
+            <TouchableOpacity onPress={() => props.navigation.navigate('Emergency')} style={[styles.buttonStyle, styles.emergencyButton]}>
+              <Text style={styles.buttonText}>Emergency</Text>
+            </TouchableOpacity>
+            
+        </View>
       </>
     )
 }
@@ -55,18 +68,47 @@ function Dashboard (props) {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      justifyContent: 'center',
+      justifyContent: 'flex-start',
       alignItems: 'center',
-      marginTop: 30
+      backgroundColor: '#4db6ac',
+      padding: 30
     },
     titleText: {
       fontSize: 20,
       fontWeight: 'bold',
+      color: 'rgb(255, 255, 255)',
+      marginTop: 30,
+      marginBottom: 30
     },
-    button: {
-      height: 100,
-      width: 100,
-      alignContent: "center"
+    buttonStyle: {
+      height: 40,
+      width: 150,
+      alignContent: "center",
+      justifyContent: 'center',
+      borderRadius: 10,
+      borderColor: '#e0f2f1',
+      borderWidth: 3,
+      borderStyle: 'dotted',
+      margin: 12
+    },
+    walkButton: {
+      borderColor: 'green',
+      borderRadius: 70,
+      height: 140,
+      width: 140
+    },
+    walkButtonText: {
+      fontSize: 40,
+    },
+    emergencyButton: {
+      borderColor: 'red'
+    },
+    buttonText: {
+      color: 'white',
+      alignSelf: 'center',
+      justifyContent: 'center',
+      fontSize: 20,
+      fontWeight: 'bold'
     }
   })
 

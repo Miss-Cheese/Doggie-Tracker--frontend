@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, TextInput, Button} from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 class Login extends React.Component {
 
@@ -39,9 +40,9 @@ class Login extends React.Component {
 
         return(
             <>
-            <View >
-                <Text>Welcome hooman!</Text>
-                <Text>Please log in ;)</Text>
+            <View style={styles.header}>
+                <Text style={styles.titleText}>Welcome hooman!</Text>
+                <Text style={styles.titleText}>Please log in ;)</Text>
             </View>
             <View style={styles.container}>
                 <TextInput style={{ height: 40, width: 300, borderColor: 'gray', borderWidth: 1 }}
@@ -55,7 +56,9 @@ class Login extends React.Component {
                 value={this.state.password} placeholder="Password"
                 secureTextEntry={true}
                 onChangeText={(input) => this.updatePasswordInState(input)}/>
-                <Button title="Log In" onPress={() => this.handleLogIn()}></Button>
+                <TouchableOpacity onPress={() => this.handleLogIn()} style={styles.buttonStyle}>
+                    <Text style={styles.buttonText}>Log In</Text>
+                </TouchableOpacity>
             </View>
             </>
         )
@@ -64,11 +67,41 @@ class Login extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-    //   justifyContent: 'flex-end',
+      flex: 4,
+    //   justifyContent: 'space-between',
       alignItems: 'center',
-      marginTop: 30
-    }
+      backgroundColor: '#4db6ac'
+    },
+    header: {
+        flex: 1,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        backgroundColor: '#4db6ac',
+    },
+    titleText: {
+        fontSize: 22,
+        fontWeight: 'bold',
+        color: 'rgb(255, 255, 255)',
+        marginTop: 30,
+      },
+    buttonStyle: {
+        height: 40,
+        width: 150,
+        alignContent: "center",
+        justifyContent: 'center',
+        borderRadius: 10,
+        borderColor: '#e0f2f1',
+        borderWidth: 3,
+        borderStyle: 'dotted',
+        margin: 10
+      },
+      buttonText: {
+        color: 'white',
+        alignSelf: 'center',
+        justifyContent: 'center',
+        fontSize: 20,
+        fontWeight: 'bold'
+      }
   })
 
 
