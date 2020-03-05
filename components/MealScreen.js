@@ -94,8 +94,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
     render () {
 
       return(
-        <>
         <View style={styles.container}>
+        <View >
         <Text style={styles.titleText}>{this.props.currentDog.name}'s Meals</Text>
           <TextInput style={styles.inputStyle}
             value={this.state.mealInfo.food}
@@ -112,27 +112,27 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
             <Picker.Item label="Snack" value="Snack" />
           </Picker>
         </View>
-        <View style={styles.container}>
+        <View>
           <TouchableOpacity onPress={() => this.updateMealInDb()} style={styles.buttonStyle}>
             <Text style={styles.buttonText}>Add Meal</Text>
           </TouchableOpacity>
         </View>
         {this.state.recentMeals.length !== 0 ? 
-        <View style={styles.container2}>
+        <View >
             <Text style={styles.titleText}>Meal History</Text>
 
             {this.state.recentMeals.slice(0,3).map(meal => 
-                <View key={meal.id} > 
-                  <Text style={styles.regularText}> Date: {this.turnStringIntoDate(meal.datetime)}{"\n"} </Text>
-                  <Text style={styles.regularText}> Time: {this.turnStringIntoTime(meal.datetime)}{"\n"} </Text>
-                  <Text style={styles.regularText}> Meal Type: {meal.meal_type}{"\n"} </Text>
-                  <Text style={styles.regularText}> Food: {meal.food} </Text>
-                </View> 
+                <Text key={meal.id} style={styles.textBlock}> 
+                  Date: {this.turnStringIntoDate(meal.datetime)}{"\n"} 
+                  Time: {this.turnStringIntoTime(meal.datetime)}{"\n"} 
+                  Meal Type: {meal.meal_type}{"\n"} 
+                  Food: {meal.food} 
+                </Text> 
               )
             }
-          </View> : <View style={styles.container}><Text style={styles.titleText}> No Meal History</Text></View>
+          </View> : <View ><Text style={styles.titleText}> No Meal History</Text></View>
         }
-      </>  
+      </View>  
       )
     }
   }
@@ -140,24 +140,29 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      justifyContent: "flex-start",
+      justifyContent: 'space-between',
       alignItems: 'center',
-      // justifyContent: 'flex-start',
       backgroundColor: '#4db6ac'
     },
     container2: {
-      flex: 2,
-      justifyContent: "flex-start",
+      flex: 1,
       alignItems: 'center',
-      // justifyContent: 'flex-start',
-      backgroundColor: '#4db6ac'
+      backgroundColor: '#4db6ac',
+      // paddingBottom: 50
+    },
+    textBlock: {
+      marginBottom: 30,
+      justifyContent: 'flex-start',
+      alignSelf: 'center'
     },
     titleText: {
       fontSize: 22,
       fontWeight: 'bold',
       color: 'white',
       marginTop: 30,
-      marginBottom: 30
+      marginBottom: 30,
+     justifyContent: 'center',
+     alignSelf: 'center'
     },
     regularText: {
       color: 'white',
@@ -169,9 +174,10 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
       borderRadius: 5,
       borderColor: 'gray', 
       borderWidth: 1, 
-      backgroundColor: '#d9bfc3', 
+      backgroundColor: 'white', 
       padding: 10,
-      justifyContent: 'center'
+      justifyContent: 'center',
+      alignSelf: 'center'
     },
     buttonStyle: {
       height: 40,

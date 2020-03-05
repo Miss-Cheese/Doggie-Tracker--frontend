@@ -93,7 +93,7 @@ class UserProfile extends React.Component {
         return(
             <>
             <View style={styles.container}>
-                <Text style={styles.regularText}>Name: {this.props.currentUser.name}</Text>
+                <Text style={styles.nameText}>Name: {this.props.currentUser.name}</Text>
                 <Text style={styles.regularText}>Email: {this.props.currentUser.email}</Text>
                 <TouchableOpacity onPress={this.toggleEditForm} style={styles.buttonStyle}>
                     <Text style={styles.buttonText}>Edit Your Profile</Text>
@@ -101,15 +101,15 @@ class UserProfile extends React.Component {
                 
                 { this.state.editingProfile && 
                     <>
-                    <TextInput style={{ height: 40, width: 200, borderColor: 'gray', borderWidth: 1 }}
+                    <TextInput style={styles.textInput}
                     value={this.state.userInfo.name} placeholder="Enter new name"
                     onChangeText={(input) => this.updateNameInState(input)}/>
 
-                    <TextInput style={{ height: 40, width: 200, borderColor: 'gray', borderWidth: 1 }}
+                    <TextInput style={styles.textInput}
                     value={this.state.userInfo.email} placeholder="Enter new email"
                     onChangeText={(input) => this.updateEmailInState(input)}/>
 
-                    <TextInput style={{ height: 40, width: 200, borderColor: 'gray', borderWidth: 1 }}
+                    <TextInput style={styles.textInput}
                     value={this.state.userInfo.password} placeholder="Enter new password"
                     onChangeText={(input) => this.updatePasswordInState(input)}/>
 
@@ -122,7 +122,7 @@ class UserProfile extends React.Component {
                 <Text style={styles.buttonText}>Delete Your Profile</Text>
                 </TouchableOpacity>
             </View>
-            <View style={styles.container}>
+            <View style={styles.container2}>
              { this.props.userDogs.length > 1 ?
                     <>
                     <Text style={styles.profileText}>Your Dogs: </Text>
@@ -146,13 +146,25 @@ class UserProfile extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
+      flex: 2,
       alignItems: 'center',
     //   justifyContent: 'space-around',
       backgroundColor: '#4db6ac'
     },
+    container2: {
+        flex: 3,
+        alignItems: 'center',
+        // justifyContent: 'space-between',
+        backgroundColor: '#4db6ac'
+      },
     profileText: {
-        fontSize: 30,
+        fontSize: 25,
+        fontWeight: 'bold',
+        color: 'rgb(255, 255, 255)'
+    },
+    nameText: {
+        marginTop: 20,
+        fontSize: 25,
         fontWeight: 'bold',
         color: 'rgb(255, 255, 255)'
     },
@@ -160,7 +172,15 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         color: 'rgb(255, 255, 255)',
-        marginTop: 20
+        marginTop: 10
+    },
+    textInput: {
+        backgroundColor: 'white',
+        height: 40, width: 200, 
+        borderColor: 'gray',
+        borderRadius: 5,
+        borderWidth: 1,
+        padding: 10
     },
     buttonStyle: {
         height: 40,

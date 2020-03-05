@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       alignItems: 'center',
-      justifyContent: 'space-evenly',
+      justifyContent: 'space-around',
       backgroundColor: '#4db6ac',
     },
     titleText: {

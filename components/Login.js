@@ -42,7 +42,7 @@ class Login extends React.Component {
             <>
             <View style={styles.header}>
                 <Text style={styles.titleText}>Welcome hooman!</Text>
-                <Text style={styles.titleText}>Please log in ;)</Text>
+                <Text style={styles.titleText}>Please log in 🐶</Text>
             </View>
             <View style={styles.container}>
                 <TextInput style={styles.inputStyle}
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
         borderColor: 'gray', 
         borderWidth: 1, 
         borderRadius: 5,
-        backgroundColor: '#d9bfc3', 
+        backgroundColor: 'white', 
         padding: 10,
         justifyContent: 'center',
         marginBottom: 10

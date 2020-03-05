@@ -230,23 +230,28 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
     render () {
 
-      console.log(this.state.peePoos)
-
       return(
         <>
-          <View style={styles.top}>
-            {/* <Text>{this.props.currentDog.name}'s Walks</Text> */}
-            {this.state.walkOn === true ? <Button title="Finish Walk" onPress={this.toggleWalkStatus}></Button> :
+          <View style={styles.container}>
+
+          <View>
+            <Text style={styles.titleText}>{this.props.currentDog.name}'s Walks</Text>
+            {this.state.walkOn === true ? <TouchableOpacity onPress={this.toggleWalkStatus} style={styles.walkButton}>
+               <Text style={styles.buttonText}>Finish Walk</Text>
+            </TouchableOpacity> :
             <TouchableOpacity onPress={this.toggleWalkStatus} style={styles.walkButton}>
               <Text style={styles.buttonText}>Start Walk</Text>
             </TouchableOpacity> }
             {this.state.walkOn && <View>
-                <Button title="Record Pee" onPress={this.recordPee}></Button>
-                <Button title="Record Poop" onPress={this.recordPoop}></Button>
+                <TouchableOpacity onPress={this.recordPee} style={styles.walkButton}>
+                  <Text style={styles.buttonText}>Record 🌧️</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={this.recordPoop} style={styles.walkButton}>
+                  <Text style={styles.buttonText}>Record 💩</Text>
+                </TouchableOpacity>
               </View>}
-          </View>
+          </View> 
 
-          <View style={styles.container}>
             <MapView
                 provider={PROVIDER_GOOGLE} 
                 ref={map => this._map = map}
@@ -262,8 +267,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
                   coordinates={this.state.walkInfo.datapoints}
                   geodesic={true}
                   strokeColor={'rgb(52, 137, 148)'}
-                  strokeWidth={7}
-                  />
+                  strokeWidth={7} />
                  
                   {this.state.peePoos.map(peePoo =>  
                   <Marker coordinate={{latitude: peePoo.latitude, longitude: peePoo.longitude} }>
@@ -273,11 +277,10 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
                 
                   </>}
             </MapView>
-          </View>
 
-          {this.state.recentWalks.length !== 0 ? 
-          <View style={styles.walk}>
-            <Text style={styles.regularText}>Last Walk</Text>
+            {this.state.recentWalks.length !== 0 ? 
+          <View>
+            <Text style={styles.titleText}>Last Walk</Text>
             {this.state.recentWalks.slice(0,1).map(walk => 
                 <Text key={walk.id} style={styles.regularText}> 
                   Start Time: {this.turnStringIntoTime(walk.start_time)}{"\n"}
@@ -290,6 +293,9 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
             }
           </View> : <View style={styles.container}><Text>No Recent Walk History</Text></View>
           }
+          </View>
+
+        
         </>
       )
     }
@@ -299,9 +305,16 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
     container: {
       flex: 1,
       alignItems: 'center',
-      justifyContent: 'space-evenly',
       padding: 5,
       backgroundColor: '#4db6ac'
+    },
+    titleText: {
+      fontSize: 22,
+      alignSelf: 'center',
+      fontWeight: 'bold',
+      color: 'white',
+      marginTop: 20,
+      marginBottom: 10
     },
     walkButton: {
       height: 40,
@@ -312,8 +325,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
       borderColor: '#e0f2f1',
       borderWidth: 3,
       borderStyle: 'dotted',
-      margin: 12,
-      marginTop: 30,
+      marginTop: 10,
+      marginBottom: 15,
       borderColor: 'green',
       borderRadius: 70
     },
@@ -324,19 +337,13 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
       fontSize: 20,
       fontWeight: 'bold'
     },
-    top: {
-      justifyContent: 'flex-end',
-      backgroundColor: '#4db6ac'
-    },
     map: {
-      // ...StyleSheet.absoluteFillObject,
       height: 350,
       width: 350,
     },
     walk: {
       flex: 1,
       alignItems: 'center',
-      paddingTop: 50,
       backgroundColor: '#4db6ac'
     },
     regularText: {

@@ -168,7 +168,7 @@ import { LineChart } from "react-native-chart-kit";
       width: 80, 
       borderColor: 'gray', 
       borderWidth: 1, 
-      backgroundColor: '#d9bfc3', 
+      backgroundColor: 'white', 
       padding: 10,
       justifyContent: 'center'
     },

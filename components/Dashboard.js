@@ -23,8 +23,10 @@ function Dashboard (props) {
             {
               props.loggedIn && props.userDogs.length === 0 ?
               <>
-              <Text>You don't have any dogs yet!</Text>
-              <Button title="Add a dog" onPress={() => props.navigation.navigate('AddDog')}/>
+              <Text style={styles.titleText}>You don't have any dogs yet!</Text>
+              <TouchableOpacity onPress={() => props.navigation.navigate('AddDog')} style={styles.buttonStyle}> 
+                <Text>Add a dog</Text>
+              </TouchableOpacity>
               </> : null
             }
 
@@ -77,7 +79,7 @@ const styles = StyleSheet.create({
       fontSize: 20,
       fontWeight: 'bold',
       color: 'rgb(255, 255, 255)',
-      marginTop: 30,
+      marginTop: 15,
       marginBottom: 30
     },
     buttonStyle: {
