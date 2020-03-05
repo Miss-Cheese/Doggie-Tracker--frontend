@@ -59,7 +59,7 @@ class Signup extends React.Component {
             <View style={styles.container}>
                 <Text style={styles.titleText}>Sign up for DoggieTracker</Text>
                 <View>
-                    <TextInput style={{ height: 40, width: 200, borderColor: 'gray', borderWidth: 1 }}
+                    <TextInput style={styles.inputStyle}
                     value={this.state.email} placeholder="Email"
                     textContentType="emailAddress"
                     autoCompleteType="email"
@@ -67,18 +67,24 @@ class Signup extends React.Component {
                     autoCapitalize="none"
                     onChangeText={(input) => this.updateEmailInState(input)}/>
 
-                    <TextInput style={{ height: 40, width: 200, borderColor: 'gray', borderWidth: 1 }}
+                    <TextInput style={styles.inputStyle}
                     value={this.state.name} placeholder="Name"
                     onChangeText={(input) => this.updateNameInState(input)}/>
 
-                    <TextInput style={{ height: 40, width: 200, borderColor: 'gray', borderWidth: 1 }}
+                    <TextInput style={styles.inputStyle}
                     value={this.state.password} placeholder="Password"
+                    secureTextEntry={true}
+                    
+                    onChangeText={(input) => this.updatePasswordInState(input)}/>
+
+                    <TextInput style={styles.inputStyle}
+                    value={this.state.password} placeholder="Confirm Password"
                     secureTextEntry={true}
                     
                     onChangeText={(input) => this.updatePasswordInState(input)}/>
                 </View>
                 <TouchableOpacity onPress={this.persistUserInDb} style={styles.buttonStyle}>
-                    <Text style={styles.buttonText}>Sign Up</Text>
+                    <Text style={styles.buttonText}>Sign Up!</Text>
                 </TouchableOpacity>
             </View>
             </>
@@ -98,6 +104,17 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: 'rgb(255, 255, 255)',
         // marginTop: 30,
+      },
+      inputStyle: {
+        height: 40, 
+        width: 200, 
+        borderColor: 'gray', 
+        borderWidth: 1, 
+        borderRadius: 5,
+        backgroundColor: '#d9bfc3', 
+        padding: 10,
+        justifyContent: 'center',
+        marginBottom: 10
       },
     buttonStyle: {
         height: 40,

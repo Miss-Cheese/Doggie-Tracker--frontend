@@ -95,8 +95,8 @@ import { LineChart } from "react-native-chart-kit";
           </View>
 
           {displayWeights.length !== 0 ?
-          <View style={styles.container}>
-          <Text>Weight History</Text>
+          <View style={styles.weightChart}>
+          <Text style={styles.titleText}>Weight History</Text>
           <LineChart
     data={{
       labels: displayWeights.map(weight => this.turnStringIntoDate(weight.date)),
@@ -109,7 +109,7 @@ import { LineChart } from "react-native-chart-kit";
       ]
     }}
     width={380} // from react-native
-    height={300}
+    height={250}
     yAxisSuffix=" lbs"
     fromZero={true}
     yAxisInterval={1} // optional, defaults to 1
@@ -136,7 +136,7 @@ import { LineChart } from "react-native-chart-kit";
     }}
   />
 
-          </View> : <View style={styles.container}><Text>No Recent Weight History</Text></View>
+          </View> : <View style={styles.container}><Text style={styles.titleText}>No Recent Weight History</Text></View>
           }
         </>  
       )
@@ -147,14 +147,21 @@ import { LineChart } from "react-native-chart-kit";
     container: {
       flex: 1,
       alignItems: 'center',
-      justifyContent: 'space-around',
+      justifyContent: 'space-evenly',
+      backgroundColor: '#4db6ac'
+    },
+    weightChart: {
+      flex: 2,
+      alignItems: 'center',
+      justifyContent: 'center',
       backgroundColor: '#4db6ac'
     },
     titleText: {
       fontSize: 22,
       fontWeight: 'bold',
       color: 'white',
-      marginTop: 30,
+      marginTop: 20,
+      marginBottom: 20
     },
     inputStyle: {
       height: 40, 

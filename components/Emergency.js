@@ -5,6 +5,7 @@ import {request, PERMISSIONS} from 'react-native-permissions';
 import Geolocation from '@react-native-community/geolocation';
 import getApiKey from './apiKey'
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import openMap from 'react-native-open-maps';
 
 
 class Emergency extends React.Component {
@@ -61,9 +62,12 @@ class Emergency extends React.Component {
         }, () => this.handleCenter()))
     }
 
-    // printLocation = () => {
-    //     console.log(this.state.apiResponse)
-    // }
+    openSystemMaps() {
+        openMap({ 
+            provider: "google",
+            latitude: this.state.apiResponse.geometry.location.lat, 
+            longitude: this.state.apiResponse.geometry.location.lng });
+      }
 
     handleCenter = () => {
         this._map.animateToRegion({
@@ -80,7 +84,9 @@ class Emergency extends React.Component {
             <View>
                 <>
                 <View style={styles.button}>
-                    <Button title="Find Emergency Vet" onPress={this.findAnimalHospital}></Button>  
+                    <TouchableOpacity onPress={this.findAnimalHospital} style={styles.buttonStyle}>
+                        <Text style={styles.buttonText}>Find Emergency Vet</Text>
+                        </TouchableOpacity>  
                 </View>
 
                 <View style={styles.container}>
@@ -94,7 +100,7 @@ class Emergency extends React.Component {
                   initialRegion={this.state.initialPosition}
                   >
                 {this.state.hospitalFound && 
-                  <Marker
+                  <Marker onPress={() => this.openSystemMaps()}
                   coordinate={{ latitude: this.state.apiResponse.geometry.location.lat, longitude: this.state.apiResponse.geometry.location.lng }}
                   title={this.state.apiResponse.name}>
                     </Marker>
@@ -127,7 +133,26 @@ const styles = StyleSheet.create({
     },
     button: {
         marginTop: 30
-    }
+    },
+    buttonStyle: {
+        height: 40,
+        width: 250,
+        alignContent: "center",
+        justifyContent: 'center',
+        alignSelf: 'center',
+        borderRadius: 10,
+        borderColor: 'red',
+        borderWidth: 3,
+        borderStyle: 'dotted',
+        margin: 10
+      },
+      buttonText: {
+        color: 'red',
+        alignSelf: 'center',
+        justifyContent: 'center',
+        fontSize: 20,
+        fontWeight: 'bold'
+      }
    });
 
 

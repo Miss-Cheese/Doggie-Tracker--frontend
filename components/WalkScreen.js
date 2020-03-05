@@ -1,8 +1,10 @@
 import React from 'react';
-import { StyleSheet, View, Text, TextInput, Button, Alert } from 'react-native';
-import MapView, { PROVIDER_GOOGLE, Polyline } from 'react-native-maps'
+import { StyleSheet, View, Text, TextInput, Button, Alert, Image } from 'react-native';
+import MapView, { PROVIDER_GOOGLE, Polyline, Marker } from 'react-native-maps'
 import {request, PERMISSIONS} from 'react-native-permissions';
 import Geolocation from '@react-native-community/geolocation';
+// import { Marker } from 'react-native-svg';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
   class Walk extends React.Component {
 
@@ -16,6 +18,7 @@ import Geolocation from '@react-native-community/geolocation';
         poop: 0,
         datapoints: []
       },
+      peePoos: [],
       recentWalks: [],
       initialPosition: null,
       lastGeoPosition: null
@@ -126,6 +129,7 @@ import Geolocation from '@react-native-community/geolocation';
         pee: this.state.walkInfo.pee + 1
       }
     })
+    this.locatePeePoos(true)
   }
 
   recordPoop = () => {
@@ -136,6 +140,22 @@ import Geolocation from '@react-native-community/geolocation';
         poop: this.state.walkInfo.poop + 1
       }
     })
+    this.locatePeePoos(false)
+  }
+
+  locatePeePoos = (pee) => {
+    Geolocation.getCurrentPosition(
+      position => {
+
+          let initialPosition = {
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+              pee: pee
+          }
+          this.setState({
+            peePoos: [...this.state.peePoos, initialPosition]
+           })
+      })
   }
 
   saveWalkToDb = () => {
@@ -206,20 +226,20 @@ import Geolocation from '@react-native-community/geolocation';
         latitudeDelta: 0.015,
         longitudeDelta: 0.0121,
     })
-}
+  }
 
     render () {
 
-      // console.log(this.state.walkInf1o)
-
-      new Polyline
+      console.log(this.state.peePoos)
 
       return(
         <>
           <View style={styles.top}>
             {/* <Text>{this.props.currentDog.name}'s Walks</Text> */}
             {this.state.walkOn === true ? <Button title="Finish Walk" onPress={this.toggleWalkStatus}></Button> :
-            <Button title="Start Walk" onPress={this.toggleWalkStatus}></Button> }
+            <TouchableOpacity onPress={this.toggleWalkStatus} style={styles.walkButton}>
+              <Text style={styles.buttonText}>Start Walk</Text>
+            </TouchableOpacity> }
             {this.state.walkOn && <View>
                 <Button title="Record Pee" onPress={this.recordPee}></Button>
                 <Button title="Record Poop" onPress={this.recordPoop}></Button>
@@ -237,21 +257,29 @@ import Geolocation from '@react-native-community/geolocation';
                 scrollEnabled={true}
                 initialRegion={this.state.initialPosition}
                 >
-                {this.state.walkOn && 
+                {this.state.walkOn && <>
                   <Polyline 
                   coordinates={this.state.walkInfo.datapoints}
                   geodesic={true}
                   strokeColor={'rgb(52, 137, 148)'}
                   strokeWidth={7}
-                  />}
+                  />
+                 
+                  {this.state.peePoos.map(peePoo =>  
+                  <Marker coordinate={{latitude: peePoo.latitude, longitude: peePoo.longitude} }>
+                    {peePoo.pee ? <Image source={require('./assets/pee.png')} style={styles.peeImage}/> :
+                    <Image source={require('./assets/poop.png')} style={styles.peeImage}/>}
+                  </Marker>)}
+                
+                  </>}
             </MapView>
           </View>
 
           {this.state.recentWalks.length !== 0 ? 
           <View style={styles.walk}>
-            <Text>Last Walk</Text>
+            <Text style={styles.regularText}>Last Walk</Text>
             {this.state.recentWalks.slice(0,1).map(walk => 
-                <Text key={walk.id}> 
+                <Text key={walk.id} style={styles.regularText}> 
                   Start Time: {this.turnStringIntoTime(walk.start_time)}{"\n"}
                   Finish Time: {this.turnStringIntoTime(walk.finish_time)}{"\n"}
                   Walk Duration: {this.getWalkDuration(walk.start_time, walk.finish_time)} min {"\n"}
@@ -271,9 +299,30 @@ import Geolocation from '@react-native-community/geolocation';
     container: {
       flex: 1,
       alignItems: 'center',
-      justifyContent: 'center',
+      justifyContent: 'space-evenly',
       padding: 5,
       backgroundColor: '#4db6ac'
+    },
+    walkButton: {
+      height: 40,
+      width: 150,
+      alignSelf: "center",
+      justifyContent: 'center',
+      borderRadius: 10,
+      borderColor: '#e0f2f1',
+      borderWidth: 3,
+      borderStyle: 'dotted',
+      margin: 12,
+      marginTop: 30,
+      borderColor: 'green',
+      borderRadius: 70
+    },
+    buttonText: {
+      color: 'white',
+      alignSelf: 'center',
+      justifyContent: 'center',
+      fontSize: 20,
+      fontWeight: 'bold'
     },
     top: {
       justifyContent: 'flex-end',
@@ -289,6 +338,14 @@ import Geolocation from '@react-native-community/geolocation';
       alignItems: 'center',
       paddingTop: 50,
       backgroundColor: '#4db6ac'
+    },
+    regularText: {
+      color: 'white',
+      fontWeight: 'bold'
+    },
+    peeImage: {
+      height: 50,
+      width: 50
     }
    });
 

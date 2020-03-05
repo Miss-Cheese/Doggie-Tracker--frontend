@@ -45,14 +45,14 @@ class Login extends React.Component {
                 <Text style={styles.titleText}>Please log in ;)</Text>
             </View>
             <View style={styles.container}>
-                <TextInput style={{ height: 40, width: 300, borderColor: 'gray', borderWidth: 1 }}
+                <TextInput style={styles.inputStyle}
                 value={this.state.email} placeholder="Email"
                 textContentType="emailAddress"
                 autoCompleteType="email"
                 keyboardType="email-address"
                 autoCapitalize="none"
                 onChangeText={(input) => this.updateEmailInState(input)}/>
-                <TextInput style={{ height: 40, width: 100, borderColor: 'gray', borderWidth: 1 }}
+                <TextInput style={styles.inputStyle}
                 value={this.state.password} placeholder="Password"
                 secureTextEntry={true}
                 onChangeText={(input) => this.updatePasswordInState(input)}/>
@@ -83,6 +83,17 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: 'rgb(255, 255, 255)',
         marginTop: 30,
+      },
+      inputStyle: {
+        height: 40, 
+        width: 200, 
+        borderColor: 'gray', 
+        borderWidth: 1, 
+        borderRadius: 5,
+        backgroundColor: '#d9bfc3', 
+        padding: 10,
+        justifyContent: 'center',
+        marginBottom: 10
       },
     buttonStyle: {
         height: 40,

@@ -148,6 +148,7 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       alignItems: 'center',
+    //   justifyContent: 'space-around',
       backgroundColor: '#4db6ac'
     },
     profileText: {
@@ -159,7 +160,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         color: 'rgb(255, 255, 255)',
-        margin: 10
+        marginTop: 20
     },
     buttonStyle: {
         height: 40,
@@ -170,7 +171,8 @@ const styles = StyleSheet.create({
         borderColor: '#e0f2f1',
         borderWidth: 3,
         borderStyle: 'dotted',
-        margin: 15
+        // margin: 15,
+        marginTop: 20
       },
       buttonText: {
         color: 'white',
