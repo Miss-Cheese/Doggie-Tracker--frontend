@@ -97,8 +97,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
         <>
         <View style={styles.container}>
         <Text style={styles.titleText}>{this.props.currentDog.name}'s Meals</Text>
-          <TextInput
-            style={{ height: 40, width: 100, borderColor: 'gray', borderWidth: 1 }}
+          <TextInput style={styles.inputStyle}
             value={this.state.mealInfo.food}
             onChangeText={(userInput) => this.updateFoodInState(userInput)}/>
 
@@ -119,19 +118,19 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
           </TouchableOpacity>
         </View>
         {this.state.recentMeals.length !== 0 ? 
-        <View style={styles.container}>
-            <Text>Meal History</Text>
+        <View style={styles.container2}>
+            <Text style={styles.titleText}>Meal History</Text>
 
             {this.state.recentMeals.slice(0,3).map(meal => 
-                <Text key={meal.id}> 
-                  Date: {this.turnStringIntoDate(meal.datetime)}{"\n"}
-                  Time: {this.turnStringIntoTime(meal.datetime)}{"\n"}
-                  Meal Type: {meal.meal_type}{"\n"}
-                  Food: {meal.food}
-                </Text> 
+                <View key={meal.id} > 
+                  <Text style={styles.regularText}> Date: {this.turnStringIntoDate(meal.datetime)}{"\n"} </Text>
+                  <Text style={styles.regularText}> Time: {this.turnStringIntoTime(meal.datetime)}{"\n"} </Text>
+                  <Text style={styles.regularText}> Meal Type: {meal.meal_type}{"\n"} </Text>
+                  <Text style={styles.regularText}> Food: {meal.food} </Text>
+                </View> 
               )
             }
-          </View> : <View style={styles.container}><Text> No Meal History</Text></View>
+          </View> : <View style={styles.container}><Text style={styles.titleText}> No Meal History</Text></View>
         }
       </>  
       )
@@ -143,6 +142,14 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
       flex: 1,
       justifyContent: "flex-start",
       alignItems: 'center',
+      // justifyContent: 'flex-start',
+      backgroundColor: '#4db6ac'
+    },
+    container2: {
+      flex: 2,
+      justifyContent: "flex-start",
+      alignItems: 'center',
+      // justifyContent: 'flex-start',
       backgroundColor: '#4db6ac'
     },
     titleText: {
@@ -151,6 +158,20 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
       color: 'white',
       marginTop: 30,
       marginBottom: 30
+    },
+    regularText: {
+      color: 'white',
+      fontWeight: 'bold'
+    },
+    inputStyle: {
+      height: 40, 
+      width: 120, 
+      borderRadius: 5,
+      borderColor: 'gray', 
+      borderWidth: 1, 
+      backgroundColor: '#d9bfc3', 
+      padding: 10,
+      justifyContent: 'center'
     },
     buttonStyle: {
       height: 40,

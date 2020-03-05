@@ -36,8 +36,8 @@ const styles = StyleSheet.create({
     alignContent: 'center'
     },
     buttonStyle: {
-        height: 40,
-        width: 150,
+        height: 60,
+        width: 140,
         alignContent: "center",
         justifyContent: 'center',
         borderRadius: 10,
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
         color: 'white',
         alignSelf: 'center',
         justifyContent: 'center',
-        fontSize: 20,
+        fontSize: 25,
         fontWeight: 'bold'
       }
   })

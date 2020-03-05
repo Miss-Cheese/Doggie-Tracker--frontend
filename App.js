@@ -122,7 +122,7 @@ class App extends React.Component {
             />}
             </Stack.Screen>
 
-          <Stack.Screen name="SwitchDogs" options={{headerTitle: props => <Text {...props}>Your Dogs</Text>}}>
+          <Stack.Screen name="SwitchDogs" options={{headerTitle: props => <Text {...props}>Select Dog</Text>}}>
           {props => <SwitchDogs {...props} currentUser={this.state.currentUser} 
           userDogs={this.state.userDogs} setCurrentDog={this.setCurrentDog}
           currentDog={this.state.currentDog}/>}
