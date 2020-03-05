@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, TextInput, Button, Alert } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 function SwitchDogs (props) {
 
@@ -11,10 +12,10 @@ function SwitchDogs (props) {
 
     return (
         <View style={styles.container}>
-            <Text>Your Dogs: </Text>
             {props.userDogs.map(dog => <View key={dog.id}>
-                <Text style={styles.titleText}> {dog.name} </Text>
-                    <Button title="Select" onPress={() => handleDogSwitch(dog)}></Button>
+                    <TouchableOpacity onPress={() => handleDogSwitch(dog)} style={styles.buttonStyle}>
+                        <Text style={styles.buttonText}>{dog.name}</Text>
+                    </TouchableOpacity>
                 </View> )}
         </View>
     )
@@ -27,11 +28,30 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       alignItems: 'center',
-      marginTop: 30
+      backgroundColor: '#4db6ac'
     },
     titleText: {
     fontSize: 20,
     fontWeight: 'bold',
     alignContent: 'center'
     },
+    buttonStyle: {
+        height: 40,
+        width: 150,
+        alignContent: "center",
+        justifyContent: 'center',
+        borderRadius: 10,
+        borderColor: '#e0f2f1',
+        borderWidth: 3,
+        borderStyle: 'dotted',
+        margin: 12,
+        marginTop: 30
+      },
+      buttonText: {
+        color: 'white',
+        alignSelf: 'center',
+        justifyContent: 'center',
+        fontSize: 20,
+        fontWeight: 'bold'
+      }
   })

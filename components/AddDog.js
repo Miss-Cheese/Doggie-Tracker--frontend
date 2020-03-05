@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, TextInput, Button, Picker} from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 class AddDog extends React.Component {
 
@@ -34,13 +35,15 @@ class AddDog extends React.Component {
             <>
             
             <View style={styles.container}>
-                <Text>Add New Dog</Text>
+                <Text style={styles.titleText}>Add New Dog</Text>
                 <View>
-                    <TextInput style={{ height: 40, width: 100, borderColor: 'gray', borderWidth: 1 }}
+                    <TextInput style={styles.inputStyle}
                     value={this.state.name} placeholder="Name"
                     onChangeText={(input) => this.updateNameInState(input)}/>
                 </View>
-                <Button title="Create" onPress={this.persistDogInDb}></Button>
+                <TouchableOpacity onPress={this.persistDogInDb} style={styles.buttonStyle}>
+                  <Text style={styles.buttonText}>Create</Text>
+                </TouchableOpacity>
             </View>
             </>
         ) 
@@ -48,10 +51,46 @@ class AddDog extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: 'center',
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: '#4db6ac'
+  },
+  titleText: {
+    fontSize: 20,
+    color: 'white',
+    fontWeight: 'bold',
+    alignContent: 'center',
+    marginTop: 30
+  },
+  inputStyle: {
+    height: 40, 
+    width: 120, 
+    borderColor: 'gray', 
+    borderWidth: 1, 
+    backgroundColor: '#d9bfc3', 
+    padding: 10,
+    justifyContent: 'center',
+    marginTop: 30
+  },
+  buttonStyle: {
+      height: 40,
+      width: 150,
+      alignContent: "center",
+      justifyContent: 'center',
+      borderRadius: 10,
+      borderColor: '#e0f2f1',
+      borderWidth: 3,
+      borderStyle: 'dotted',
+      margin: 12,
       marginTop: 30
+    },
+    buttonText: {
+      color: 'white',
+      alignSelf: 'center',
+      justifyContent: 'center',
+      fontSize: 20,
+      fontWeight: 'bold'
     }
   })
 

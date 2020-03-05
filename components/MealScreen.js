@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, TextInput, Button, Picker, Alert } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
   class Meal extends React.Component {
 
@@ -95,7 +96,7 @@ import { StyleSheet, View, Text, TextInput, Button, Picker, Alert } from 'react-
       return(
         <>
         <View style={styles.container}>
-        <Text>{this.props.currentDog.name}'s Meals</Text>
+        <Text style={styles.titleText}>{this.props.currentDog.name}'s Meals</Text>
           <TextInput
             style={{ height: 40, width: 100, borderColor: 'gray', borderWidth: 1 }}
             value={this.state.mealInfo.food}
@@ -112,8 +113,10 @@ import { StyleSheet, View, Text, TextInput, Button, Picker, Alert } from 'react-
             <Picker.Item label="Snack" value="Snack" />
           </Picker>
         </View>
-        <View>
-          <Button title="Add Meal" onPress={() => this.updateMealInDb()}></Button>
+        <View style={styles.container}>
+          <TouchableOpacity onPress={() => this.updateMealInDb()} style={styles.buttonStyle}>
+            <Text style={styles.buttonText}>Add Meal</Text>
+          </TouchableOpacity>
         </View>
         {this.state.recentMeals.length !== 0 ? 
         <View style={styles.container}>
@@ -140,8 +143,32 @@ import { StyleSheet, View, Text, TextInput, Button, Picker, Alert } from 'react-
       flex: 1,
       justifyContent: "flex-start",
       alignItems: 'center',
+      backgroundColor: '#4db6ac'
+    },
+    titleText: {
+      fontSize: 22,
+      fontWeight: 'bold',
+      color: 'white',
       marginTop: 30,
-      padding: 10
+      marginBottom: 30
+    },
+    buttonStyle: {
+      height: 40,
+      width: 150,
+      alignContent: "center",
+      justifyContent: 'center',
+      borderRadius: 10,
+      borderColor: '#e0f2f1',
+      borderWidth: 3,
+      borderStyle: 'dotted',
+      marginTop: 30
+    },
+    buttonText: {
+      color: 'white',
+      alignSelf: 'center',
+      justifyContent: 'center',
+      fontSize: 18,
+      fontWeight: 'bold'
     }
   })
 

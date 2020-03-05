@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, TextInput, Button, Alert } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
   class Weight extends React.Component {
 
@@ -78,15 +79,17 @@ import { StyleSheet, View, Text, TextInput, Button, Alert } from 'react-native';
       return(
         <>
           <View style={styles.container}>
-          <Text>Add {this.props.currentDog.name}'s weight for today</Text>
+          <Text style={styles.titleText}>Add {this.props.currentDog.name}'s weight for today</Text>
             <TextInput
-              style={{ height: 40, width: 50, borderColor: 'gray', borderWidth: 1 }}
+              style={styles.inputStyle}
               placeholder="lbs"
               keyboardType='numeric'
               value={this.state.amount}
               maxLength={3}
               onChangeText={(input) => this.updateStateWeight(input)}/>
-            <Button title="Update Weight" onPress={() => this.updateDbWeight()}></Button>
+            <TouchableOpacity onPress={() => this.updateDbWeight()} style={styles.buttonStyle}>
+              <Text style={styles.buttonText}>Update Weight</Text>
+            </TouchableOpacity>
           </View>
 
           {this.state.recentWeight.length !== 0 ? 
@@ -110,7 +113,41 @@ import { StyleSheet, View, Text, TextInput, Button, Alert } from 'react-native';
     container: {
       flex: 1,
       alignItems: 'center',
-      marginTop: 30
+      justifyContent: 'space-around',
+      backgroundColor: '#4db6ac'
+    },
+    titleText: {
+      fontSize: 22,
+      fontWeight: 'bold',
+      color: 'white',
+      marginTop: 30,
+    },
+    inputStyle: {
+      height: 40, 
+      width: 80, 
+      borderColor: 'gray', 
+      borderWidth: 1, 
+      backgroundColor: '#d9bfc3', 
+      padding: 10,
+      justifyContent: 'center'
+    },
+    buttonStyle: {
+      height: 40,
+      width: 150,
+      alignContent: "center",
+      justifyContent: 'center',
+      borderRadius: 10,
+      borderColor: '#e0f2f1',
+      borderWidth: 3,
+      borderStyle: 'dotted',
+      margin: 9
+    },
+    buttonText: {
+      color: 'white',
+      alignSelf: 'center',
+      justifyContent: 'center',
+      fontSize: 18,
+      fontWeight: 'bold'
     }
   })
 

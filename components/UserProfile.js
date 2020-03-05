@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, TextInput, Button, Alert } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 class UserProfile extends React.Component { 
 
@@ -92,9 +93,11 @@ class UserProfile extends React.Component {
         return(
             <>
             <View style={styles.container}>
-                <Text>Name: {this.props.currentUser.name}</Text>
-                <Text>Email: {this.props.currentUser.email}</Text>
-                <Button title="Edit Your Profile" onPress={this.toggleEditForm}></Button>
+                <Text style={styles.regularText}>Name: {this.props.currentUser.name}</Text>
+                <Text style={styles.regularText}>Email: {this.props.currentUser.email}</Text>
+                <TouchableOpacity onPress={this.toggleEditForm} style={styles.buttonStyle}>
+                    <Text style={styles.buttonText}>Edit Your Profile</Text>
+                </TouchableOpacity>
                 
                 { this.state.editingProfile && 
                     <>
@@ -110,24 +113,30 @@ class UserProfile extends React.Component {
                     value={this.state.userInfo.password} placeholder="Enter new password"
                     onChangeText={(input) => this.updatePasswordInState(input)}/>
 
-                    <Button title="Update Profile" onPress={this.updateUserInDb}></Button>
+                    <TouchableOpacity onPress={this.updateUserInDb} style={styles.buttonStyle}>
+                        <Text style={styles.buttonText}>Update Profile</Text>
+                    </TouchableOpacity>
                     </>
                 }
-                <Button title="Delete Your Profile" onPress={this.deleteUser}></Button>
+                <TouchableOpacity onPress={this.deleteUser} style={styles.buttonStyle}>
+                <Text style={styles.buttonText}>Delete Your Profile</Text>
+                </TouchableOpacity>
             </View>
             <View style={styles.container}>
              { this.props.userDogs.length > 1 ?
                     <>
-                    <Text>Your Dogs: </Text>
+                    <Text style={styles.profileText}>Your Dogs: </Text>
                     { 
                         this.props.userDogs.map(dog => 
-                            <Text key={dog.id}>{dog.name}</Text>
+                            <Text key={dog.id} style={styles.regularText}>{dog.name}</Text>
                             )
                     }
                     </> : <Text>You don't have any dogs yet.</Text>
              }
                 
-                <Button title="Add new dog" onPress={() => this.props.navigation.navigate('AddDog')} />
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('AddDog')} style={styles.buttonStyle}>
+                    <Text style={styles.buttonText}>Add new dog</Text>
+                </TouchableOpacity>
             </View>
             </>
 
@@ -139,9 +148,37 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       alignItems: 'center',
-      marginTop: 30,
-      padding: 5
-    }
+      backgroundColor: '#4db6ac'
+    },
+    profileText: {
+        fontSize: 30,
+        fontWeight: 'bold',
+        color: 'rgb(255, 255, 255)'
+    },
+    regularText: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: 'rgb(255, 255, 255)',
+        margin: 10
+    },
+    buttonStyle: {
+        height: 40,
+        width: 200,
+        alignContent: "center",
+        justifyContent: 'center',
+        borderRadius: 10,
+        borderColor: '#e0f2f1',
+        borderWidth: 3,
+        borderStyle: 'dotted',
+        margin: 15
+      },
+      buttonText: {
+        color: 'white',
+        alignSelf: 'center',
+        justifyContent: 'center',
+        fontSize: 20,
+        fontWeight: 'bold'
+      }
   })
 
 export default UserProfile

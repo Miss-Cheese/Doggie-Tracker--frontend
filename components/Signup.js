@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, TextInput, Button, Alert } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 class Signup extends React.Component {
 
@@ -56,7 +57,7 @@ class Signup extends React.Component {
         return (
             <>
             <View style={styles.container}>
-                <Text>Sign up for DoggieTracker</Text>
+                <Text style={styles.titleText}>Sign up for DoggieTracker</Text>
                 <View>
                     <TextInput style={{ height: 40, width: 200, borderColor: 'gray', borderWidth: 1 }}
                     value={this.state.email} placeholder="Email"
@@ -76,7 +77,9 @@ class Signup extends React.Component {
                     
                     onChangeText={(input) => this.updatePasswordInState(input)}/>
                 </View>
-                <Button title="Sign Up" onPress={this.persistUserInDb}></Button>
+                <TouchableOpacity onPress={this.persistUserInDb} style={styles.buttonStyle}>
+                    <Text style={styles.buttonText}>Sign Up</Text>
+                </TouchableOpacity>
             </View>
             </>
         ) // should be redirect / message after user successfully signed up.
@@ -87,8 +90,33 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       alignItems: 'center',
-      marginTop: 30
-    }
+      justifyContent: 'space-evenly',
+      backgroundColor: '#4db6ac',
+    },
+    titleText: {
+        fontSize: 22,
+        fontWeight: 'bold',
+        color: 'rgb(255, 255, 255)',
+        // marginTop: 30,
+      },
+    buttonStyle: {
+        height: 40,
+        width: 150,
+        alignContent: "center",
+        justifyContent: 'center',
+        borderRadius: 10,
+        borderColor: '#e0f2f1',
+        borderWidth: 3,
+        borderStyle: 'dotted',
+        margin: 10
+      },
+      buttonText: {
+        color: 'white',
+        alignSelf: 'center',
+        justifyContent: 'center',
+        fontSize: 20,
+        fontWeight: 'bold'
+      }
   })
 
 export default Signup
