@@ -244,10 +244,10 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
             </TouchableOpacity> }
             {this.state.walkOn && <View>
                 <TouchableOpacity onPress={this.recordPee} style={styles.walkButton}>
-                  <Text style={styles.buttonText}>Record 🌧️</Text>
+                  <Text style={styles.buttonText}>Record Pee 🌧️</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={this.recordPoop} style={styles.walkButton}>
-                  <Text style={styles.buttonText}>Record 💩</Text>
+                  <Text style={styles.buttonText}>Record Poop 💩</Text>
                 </TouchableOpacity>
               </View>}
           </View> 
@@ -318,7 +318,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
     },
     walkButton: {
       height: 40,
-      width: 150,
+      width: 200,
       alignSelf: "center",
       justifyContent: 'center',
       borderRadius: 10,

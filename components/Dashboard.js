@@ -25,7 +25,7 @@ function Dashboard (props) {
               <>
               <Text style={styles.titleText}>You don't have any dogs yet!</Text>
               <TouchableOpacity onPress={() => props.navigation.navigate('AddDog')} style={styles.buttonStyle}> 
-                <Text>Add a dog</Text>
+                <Text style={styles.buttonText}>Add a dog</Text>
               </TouchableOpacity>
               </> : null
             }
