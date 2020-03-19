@@ -91,7 +91,6 @@ class UserProfile extends React.Component {
     render () {
 
         return(
-            <>
             <View style={styles.container}>
                 <Text style={styles.nameText}>Name: {this.props.currentUser.name}</Text>
                 <Text style={styles.regularText}>Email: {this.props.currentUser.email}</Text>
@@ -121,41 +120,34 @@ class UserProfile extends React.Component {
                 <TouchableOpacity onPress={this.deleteUser} style={styles.buttonStyle}>
                 <Text style={styles.buttonText}>Delete Your Profile</Text>
                 </TouchableOpacity>
-            </View>
-            <View style={styles.container2}>
-             { this.props.userDogs.length > 1 ?
-                    <>
-                    <Text style={styles.profileText}>Your Dogs: </Text>
-                    { 
-                        this.props.userDogs.map(dog => 
-                            <Text key={dog.id} style={styles.regularText}>{dog.name}</Text>
-                            )
+                <View style={styles.dogContainer}>
+                    { this.props.userDogs.length > 1 ?
+                            <>
+                            <Text style={styles.profileText}>Your Dogs: </Text>
+                            { 
+                                this.props.userDogs.map(dog => 
+                                    <Text key={dog.id} style={styles.regularText}>{dog.name}</Text>
+                                    )
+                            }
+                            </> : <Text>You don't have any dogs yet.</Text>
                     }
-                    </> : <Text>You don't have any dogs yet.</Text>
-             }
-                
                 <TouchableOpacity onPress={() => this.props.navigation.navigate('AddDog')} style={styles.buttonStyle}>
                     <Text style={styles.buttonText}>Add new dog</Text>
                 </TouchableOpacity>
+                </View>
             </View>
-            </>
-
         )
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-      flex: 2,
+      flex: 1,
       alignItems: 'center',
-    //   justifyContent: 'space-around',
       backgroundColor: '#4db6ac'
     },
-    container2: {
-        flex: 3,
-        alignItems: 'center',
-        // justifyContent: 'space-between',
-        backgroundColor: '#4db6ac'
+    dogContainer: {
+    marginTop: 50
       },
     profileText: {
         fontSize: 25,

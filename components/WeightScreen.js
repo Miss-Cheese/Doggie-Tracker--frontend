@@ -48,7 +48,8 @@ import { LineChart } from "react-native-chart-kit";
          body: JSON.stringify(this.state.weightInfo) 
         })
       }
-      this.props.navigation.navigate('Dashboard')
+      // this.props.navigation.navigate('Dashboard')
+      this.getRecentWeight()
     }
 
     getRecentWeight = () => {
@@ -98,42 +99,38 @@ import { LineChart } from "react-native-chart-kit";
           <View style={styles.weightChart}>
           <Text style={styles.titleText}>Weight History</Text>
           <LineChart
-    data={{
-      labels: displayWeights.map(weight => this.turnStringIntoDate(weight.date)),
-      datasets: [
-        {
-          data:
-            displayWeights.map(weight => weight.amount)
-
-        }
-      ]
-    }}
-    width={380} // from react-native
-    height={250}
-    yAxisSuffix=" lbs"
-    fromZero={true}
-    yAxisInterval={1} // optional, defaults to 1
-    chartConfig={{
-      backgroundColor: "#ffaaff",
-      backgroundGradientFrom: "#b64d87",
-      backgroundGradientTo: "#e67da7",
-      decimalPlaces: 1, // optional, defaults to 2dp
-      color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-      labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-      style: {
-        borderRadius: 16
-      },
-      propsForDots: {
-        r: "6",
-        strokeWidth: "2",
-        stroke: "#993399"
-      }
-    }}
-    bezier
-    style={{
-      marginVertical: 8,
-      borderRadius: 16
-    }}
+            data={{
+              labels: displayWeights.map(weight => this.turnStringIntoDate(weight.date)),
+              datasets: [
+                { data: displayWeights.map(weight => weight.amount) }
+              ]
+            }}
+            width={380} // from react-native
+            height={250}
+            yAxisSuffix=" lbs"
+            fromZero={true}
+            yAxisInterval={1} // optional, defaults to 1
+            chartConfig={{
+              backgroundColor: "#ffaaff",
+              backgroundGradientFrom: "#b64d87",
+              backgroundGradientTo: "#e67da7",
+              decimalPlaces: 1, // optional, defaults to 2dp
+              color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+              labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+              style: {
+                borderRadius: 16
+              },
+              propsForDots: {
+                r: "6",
+                strokeWidth: "2",
+                stroke: "#993399"
+              }
+            }}
+            bezier
+            style={{
+              marginVertical: 8,
+              borderRadius: 16
+            }}
   />
 
           </View> : <View style={styles.container}><Text style={styles.titleText}>No Recent Weight History</Text></View>
@@ -168,6 +165,7 @@ import { LineChart } from "react-native-chart-kit";
       width: 80, 
       borderColor: 'gray', 
       borderWidth: 1, 
+      borderRadius: 5,
       backgroundColor: 'white', 
       padding: 10,
       justifyContent: 'center'
