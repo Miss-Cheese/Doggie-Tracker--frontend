@@ -38,7 +38,7 @@ class AddDog extends React.Component {
                 <Text style={styles.titleText}>Add New Dog</Text>
                 <View>
                     <TextInput style={styles.inputStyle}
-                    value={this.state.name} placeholder="Name"
+                    value={this.state.name} placeholder="Dog Name"
                     onChangeText={(input) => this.updateNameInState(input)}/>
                 </View>
                 <TouchableOpacity onPress={this.persistDogInDb} style={styles.buttonStyle}>
@@ -68,7 +68,8 @@ const styles = StyleSheet.create({
     width: 120, 
     borderColor: 'gray', 
     borderWidth: 1, 
-    backgroundColor: '#d9bfc3', 
+    borderRadius: 5,
+    backgroundColor: 'white', 
     padding: 10,
     justifyContent: 'center',
     marginTop: 30
