@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { StyleSheet, View, Text, TextInput, Button} from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, Alert} from 'react-native';
 import Dashboard from './components/Dashboard'
 import WeightScreen from './components/WeightScreen'
 import MealScreen from './components/MealScreen'
@@ -16,7 +16,9 @@ import { log } from 'react-native-reanimated';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
 import Emergency from './components/Emergency';
 
-global.BASE_URL = `https://doggie-tracker.herokuapp.com`
+// global.BASE_URL = `https://doggie-tracker.herokuapp.com`
+global.BASE_URL = `http://localhost:3000`
+
 const Stack = createStackNavigator();
 console.disableYellowBox = true
 
@@ -24,21 +26,49 @@ class App extends React.Component {
 
   state = {
     loggedIn: false,
-    currentUser: {},
+    currentUser: null,
     currentDog: {},
     userDogs: []
   }
 
-  loginUser = (loggedInUser) => {
+  componentDidMount() {
+    const token = localStorage.token
+
+    if (token) {
+      fetch(`${BASE_URL}/login`, {
+        headers: {
+            'Authorization': token
+        }
+    })
+    .then(response => response.json())
+    .then(response => {
+      if (response.errors) {
+        console.log(response.errors)
+        // later change to Alert.alert(response.errors)
+      } else {
+        this.loginUser(response)
+      }
+    })
+    }
+  }
+
+  loginUser = (response) => {
     this.setState({
       loggedIn: true,
-      currentUser: loggedInUser
-    }, () => this.getUserDogs())
+      currentUser: response.user
+    }, () => {
+      localStorage.token = response.token
+      this.getUserDogs()
+    })
   }
 
   logoutUser = () => {
     this.setState({
-      loggedIn: false
+      loggedIn: false,
+      currentUser: null
+    }, () => {
+      localStorage.removeItem("token")
+      this.props.navigation.navigate('Login')
     })
   }
 

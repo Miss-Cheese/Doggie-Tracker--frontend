@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, TextInput, Button} from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, Alert} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 class Login extends React.Component {
@@ -21,22 +21,29 @@ class Login extends React.Component {
         })
     }
 
+
     handleLogIn = () => {
-        let loggedInUser
-        fetch(`${BASE_URL}/users`)
-          .then(response => response.json())
-          .then(data => {
-            loggedInUser = data.find(user => user.email === this.state.email)
-            this.props.loginUser(loggedInUser)
+        fetch(`${BASE_URL}/login`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(this.state)
         })
-        this.props.navigation.navigate('Dashboard')
+          .then(response => response.json())
+          .then(response => {
+              if (response.errors) {
+                  Alert.alert("Error", response.errors)
+              } else {
+                this.props.loginUser(response)
+                this.props.navigation.navigate('Dashboard')
+              }
+          })
     }
 
 
-
     render () {
-
-        // console.log(this.state)
 
         return(
             <>
