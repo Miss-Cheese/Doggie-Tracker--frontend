@@ -7,6 +7,7 @@ class Signup extends React.Component {
     state = {
         email: '',
         password: '',
+        passwordConfirmation: '',
         name: ''
     }
 
@@ -29,30 +30,61 @@ class Signup extends React.Component {
         })
     }
 
+
+    updatePasswordConfirmationInState = (input) => {
+        this.setState({
+            passwordConfirmation: input
+        })
+    }
+
+
     persistUserInDb = () => {
-        if (this.state.email === '' || this.state.name === '' || this.state.password === '') {
+
+        if (this.state.password === this.state.passwordConfirmation) {
+            if (this.state.email === '' || this.state.name === '' || this.state.password === '') {
+                Alert.alert(
+                    'Alert',
+                    'Please enter all information to sign up',
+                    [ {text: 'OK', onPress: () => console.log('OK Pressed')}],
+                    {cancelable: true},
+                  );
+            } else {
+                fetch(`${BASE_URL}/signup`, {
+                  method: "POST",
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                  },
+                 body: JSON.stringify({
+                    email: this.state.email,
+                    password: this.state.password,
+                    name: this.state.name
+                 }) 
+                })
+                .then(response => response.json())
+                .then(response => {
+                    if (response.errors) {
+                        Alert.alert('Error', response.errors[0])
+                    } else {
+                        this.props.navigation.navigate('Login')
+                    }
+                })
+              }
+        } else {
             Alert.alert(
                 'Alert',
-                'Please enter all information to sign up',
+                "Passwords don't match",
                 [ {text: 'OK', onPress: () => console.log('OK Pressed')}],
                 {cancelable: true},
-              );
-        } else {
-            fetch(`${BASE_URL}/users`, {
-              method: "POST",
-              headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-              },
-             body: JSON.stringify(this.state) 
-            })
-          }
-          this.props.navigation.navigate('Login')
+            );
         }
+    }
+
+
+
+
 
     render () {
-
-        // console.log()
 
         return (
             <>
@@ -74,14 +106,12 @@ class Signup extends React.Component {
                     <TextInput style={styles.inputStyle}
                     value={this.state.password} placeholder="Password"
                     secureTextEntry={true}
-                    
                     onChangeText={(input) => this.updatePasswordInState(input)}/>
 
                     <TextInput style={styles.inputStyle}
-                    value={this.state.password} placeholder="Confirm Password"
+                    value={this.state.passwordConfirmation} placeholder="Confirm Password"
                     secureTextEntry={true}
-                    
-                    onChangeText={(input) => this.updatePasswordInState(input)}/>
+                    onChangeText={(input) => this.updatePasswordConfirmationInState(input)}/>
                 </View>
                 <TouchableOpacity onPress={this.persistUserInDb} style={styles.buttonStyle}>
                     <Text style={styles.buttonText}>Sign Up!</Text>
@@ -96,7 +126,7 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       alignItems: 'center',
-      justifyContent: 'space-around',
+      justifyContent: 'flex-start',
       backgroundColor: '#4db6ac',
     },
     titleText: {
@@ -111,7 +141,7 @@ const styles = StyleSheet.create({
         borderColor: 'gray', 
         borderWidth: 1, 
         borderRadius: 5,
-        backgroundColor: '#d9bfc3', 
+        backgroundColor: 'white', 
         padding: 10,
         justifyContent: 'center',
         marginBottom: 10
