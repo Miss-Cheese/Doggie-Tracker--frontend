@@ -3,8 +3,6 @@ import { SafeAreaView, StyleSheet, ScrollView, View, Text, Button, TouchableOpac
 
 function Dashboard (props) {
 
-  // console.log(props)
-
     return (
       <>
         <View style={styles.container}>
@@ -61,6 +59,13 @@ function Dashboard (props) {
             <TouchableOpacity onPress={() => props.navigation.navigate('Emergency')} style={[styles.buttonStyle, styles.emergencyButton]}>
               <Text style={styles.buttonText}>Emergency</Text>
             </TouchableOpacity>
+
+            { props.loggedIn ? 
+            <>
+            <TouchableOpacity onPress={props.logoutUser} style={styles.buttonStyle}>
+              <Text style={styles.buttonText}>Log Out</Text>
+            </TouchableOpacity>
+            </> : null }
             
         </View>
       </>

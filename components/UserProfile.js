@@ -121,7 +121,7 @@ class UserProfile extends React.Component {
                 <Text style={styles.buttonText}>Delete Your Profile</Text>
                 </TouchableOpacity>
                 <View style={styles.dogContainer}>
-                    { this.props.userDogs.length > 1 ?
+                    { this.props.userDogs.length >= 1 ?
                             <>
                             <Text style={styles.profileText}>Your Dogs: </Text>
                             { 
