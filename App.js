@@ -18,8 +18,8 @@ import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
 import Emergency from './components/Emergency';
 
 
-// global.BASE_URL = `https://doggie-tracker.herokuapp.com`
-global.BASE_URL = `http://localhost:3000`
+global.BASE_URL = `https://doggie-tracker.herokuapp.com`
+// global.BASE_URL = `http://localhost:3000`
 
 const Stack = createStackNavigator();
 console.disableYellowBox = true
@@ -50,7 +50,6 @@ class App extends React.Component {
     })
     .then(response => response.json())
     .then(response => {
-
       if (response.errors) {
         console.log(response.errors)
         Alert.alert(response.errors)
@@ -96,7 +95,6 @@ class App extends React.Component {
       })
     }
   }
-
 
   logoutUser = () => {
     this.setState({
@@ -160,7 +158,7 @@ class App extends React.Component {
   }
 
   render () {
-
+  
     return (
       <NavigationContainer>
       
