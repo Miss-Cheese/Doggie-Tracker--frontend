@@ -3,6 +3,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { StyleSheet, View, Text, TextInput, Button, Alert} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import Dashboard from './components/Dashboard'
 import WeightScreen from './components/WeightScreen'
 import MealScreen from './components/MealScreen'
@@ -15,6 +16,7 @@ import SwitchDogs from './components/SwitchDogs'
 import { log } from 'react-native-reanimated';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
 import Emergency from './components/Emergency';
+
 
 // global.BASE_URL = `https://doggie-tracker.herokuapp.com`
 global.BASE_URL = `http://localhost:3000`
@@ -31,46 +33,90 @@ class App extends React.Component {
     userDogs: []
   }
 
-  componentDidMount() {
-    const token = localStorage.token
 
-    if (token) {
-      fetch(`${BASE_URL}/login`, {
+  componentDidMount() {
+    this.doLogin()
+  }
+
+
+  doLogin = async () => {
+    const token = await this.getToken()
+   
+    if (token !== null || undefined) {
+      fetch(`${BASE_URL}/auto_login`, {
         headers: {
             'Authorization': token
         }
     })
     .then(response => response.json())
     .then(response => {
+
       if (response.errors) {
         console.log(response.errors)
-        // later change to Alert.alert(response.errors)
+        Alert.alert(response.errors)
       } else {
         this.loginUser(response)
       }
     })
     }
   }
+ 
+  
+  storeToken = async (value) => {
+    try {
+      return await AsyncStorage.setItem('@access_token', value)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
+  getToken = async () => {
+    try {
+      const value = await AsyncStorage.getItem('@access_token')
+      if (value !== null) {
+        return value
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+ 
 
   loginUser = (response) => {
-    this.setState({
-      loggedIn: true,
-      currentUser: response.user
-    }, () => {
-      localStorage.token = response.token
-      this.getUserDogs()
-    })
+    if (!response.error) {
+      this.setState({
+        loggedIn: true,
+        currentUser: response.user
+      }, () => {
+        if (response.token) {
+          this.storeToken(response.token)
+        }
+        this.getUserDogs()
+      })
+    }
   }
+
 
   logoutUser = () => {
     this.setState({
       loggedIn: false,
       currentUser: null
     }, () => {
-      localStorage.removeItem("token")
-      this.props.navigation.navigate('Login')
+      this.removeToken('@access_token')
     })
   }
+  
+
+  removeToken = async () => {
+    try {
+      await AsyncStorage.removeItem('@access_token')
+      Alert.alert("Logout Success!")
+    } catch (error) {
+      console.log('AsyncStorage error: ' + error.message)
+    }
+  }
+  
 
   getUserDogs = () => {
     fetch(`${BASE_URL}/dogs`)
@@ -83,6 +129,7 @@ class App extends React.Component {
       }, () => this.setCurrentDog())
     })
   }
+
 
   setCurrentDog = (dog = null) => {
     if (!dog) {
@@ -97,10 +144,9 @@ class App extends React.Component {
       this.setState({
         currentDog: dog
       })
-      // this.props.navigation.navigate('Dashboard')
+      this.props.navigation.navigate('Dashboard')
     }
   }
-
 
 
   updateUserInfoAfterEdit = (userInfo) => {
@@ -125,7 +171,7 @@ class App extends React.Component {
           <Stack.Screen name="Signup" component={Signup}/>
 
           <Stack.Screen name="Dashboard" options={{headerTitle: props => <Text {...props}>Dashboard</Text>}}>
-            {props => <Dashboard {...props} loggedIn={this.state.loggedIn} currentDog={this.state.currentDog} userDogs={this.state.userDogs}/> }
+            {props => <Dashboard {...props} loggedIn={this.state.loggedIn} currentDog={this.state.currentDog} userDogs={this.state.userDogs} logoutUser={this.logoutUser}/> }
             </Stack.Screen>
 
           <Stack.Screen name="Weight" options={{headerTitle: props => <Text {...props}>Weight</Text>}}>

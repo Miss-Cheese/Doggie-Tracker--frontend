@@ -48,7 +48,7 @@ import { LineChart } from "react-native-chart-kit";
          body: JSON.stringify(this.state.weightInfo) 
         })
       }
-      // this.props.navigation.navigate('Dashboard')
+      this.props.navigation.navigate('Dashboard')
       this.getRecentWeight()
     }
 
